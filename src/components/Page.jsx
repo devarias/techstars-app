@@ -63,7 +63,7 @@ const Page = () => {
 
   const classObjects = ['home', 'surveyStatus', 'results', 'charts', 'table'];
   const pathRoute = [
-    '/Home',
+    '/',
     '/SurveyStatus',
     '/Results',
     '/GenerateMeetings',
