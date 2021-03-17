@@ -7,3 +7,4 @@ npm i -S react-scripts
 npm i -S axios
 npm i -S @auth0/auth0-react
 npm i -S react-highlight-words
+npm i -S serve
