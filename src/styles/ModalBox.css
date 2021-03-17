@@ -1,0 +1,36 @@
+.modalBox {
+  display: block;
+  text-align: center;
+  width: 440px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.664);
+}
+.modalBox span {
+  text-align: justify;
+  text-justify: inter-cluster;
+  color: rgba(255, 255, 255, 0.664);
+}
+.modalFireball {
+  margin-bottom: 15px;
+}
+span.perfectMatch,
+span.want {
+  color: #4dad45;
+}
+span.strongMatch {
+  color: #82d0ca;
+}
+span.goodMatch,
+span.willing {
+  color: #f2f234;
+}
+span.willing {
+  color: #ffa502;
+}
+span.notMatch,
+span.wont {
+  color: #ff5938;
+}
+span.pending {
+  color: white;
+}
