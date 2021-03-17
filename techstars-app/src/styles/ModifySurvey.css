@@ -1,0 +1,35 @@
+/* .modify {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 25px 0 0 0;
+}
+h2 {
+    margin-bottom: 50px;
+}
+.ant-dropdown-menu {
+    background-color: black;
+    height: 240x;
+    overflow-y: auto;
+}
+.modifySurvey{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.modifySurvey .ant-table-wrapper {
+    width: 400px;
+}
+.modifySurvey button{
+    color: black;
+    background-color: red;
+} */
+.hey {
+  background: coral;
+  width: auto;
+  height: 100%;
+}
