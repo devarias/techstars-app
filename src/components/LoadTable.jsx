@@ -28,7 +28,7 @@ function LoadTable() {
 
   const getResults = async () => {
     const resultsResponse = await fetch(
-      'http://techstars-api.herokuapp.com/api/results',
+      'https://techstars-api.herokuapp.com/api/results',
       {
         method: 'GET',
         headers: {
