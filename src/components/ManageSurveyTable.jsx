@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Table, Input, Button, Space } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Table, Input, Button, Space, Radio, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import '../styles/ModifySurvey.css';
 
 function ManageSurveyTable(props) {
-  const objListRows = [];
-  let index = 0;
+  const [selectTable, setSelectTable] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -25,6 +24,11 @@ function ManageSurveyTable(props) {
       setSelectedRowKeys([]);
       setLoading(false);
     }, 1000);
+  };
+
+  const handleTableChange = () => {
+    setSelectTable(!selectTable);
+    console.log(selectTable);
   };
 
   const rowSelection = {
@@ -87,52 +91,123 @@ function ManageSurveyTable(props) {
       ),
   });
 
-  const columns = [
-    {
-      title: `Mentor Name`,
-      dataIndex: 'mentorName',
-      key: 'mentorName',
-      width: 100,
-      render: (text) => text,
-      sorter: (a, b) => a.mentorName.localeCompare(b.mentorName),
-      defaultSortOrder: 'ascend',
-      ...getColumnSearchProps('mentorName'),
-    },
-    {
-      title: 'Survey Status',
-      dataIndex: 'surveyStatus',
-      key: 'surveyStatus',
-      width: 100,
-      render: (text) => {
-        {
-        }
-      },
-    },
-  ];
-
-  const getDataSurveys = () => {
+  const getMentorSurvey = () => {
+    const objListRows = [];
+    let index = 0;
     for (const [mentor, result] of Object.entries(props.results[0])) {
       let totalSurveys = 0;
       let totalAnswered = 0;
-      const objRow = { key: index++, mentorName: mentor };
+      const Row = {};
+      Row.key = index++;
+      Row.mentorName = mentor;
       result.forEach((element) => {
-        if (element.mentorVote) {
+        if (element[`mentorVote`]) {
           totalAnswered++;
         }
         totalSurveys++;
       });
-      objRow['surveyStatus'] = `${totalAnswered}/${totalSurveys}`;
-      objListRows.push(objRow);
+      Row['surveyStatus'] = `${totalAnswered}/${totalSurveys}`;
+      objListRows.push(Row);
     }
+    console.log(objListRows);
     return objListRows;
   };
 
-  const data = getDataSurveys();
+  const getCompanySurvey = () => {
+    const objListRows = [];
+    const companyArray = [];
+    let index = 0;
+    for (const result of Object.values(props.results[0])) {
+      companyArray.push(...result);
+    }
+    companyArray.forEach((obj) => {
+      let totalSurveys = 0;
+      let totalAnswered = 0;
+      let Row = '';
+      if (!objListRows.some((item) => item.companyName === obj.company)) {
+        Row = { key: index++, companyName: obj.company };
+        companyArray.forEach((element) => {
+          if (element.company === Row.companyName) {
+            if (element[`companyVote`]) {
+              totalAnswered++;
+            }
+            totalSurveys++;
+          }
+        });
+        Row['surveyStatus'] = `${totalAnswered}/${totalSurveys}`;
+        objListRows.push(Row);
+      }
+    });
+    return objListRows;
+  };
+
+  const getMentorColumns = () => {
+    return [
+      {
+        title: `Mentor Name`,
+        dataIndex: `mentorName`,
+        key: `mentorName`,
+        width: 100,
+        render: (text) => <div className='data'>{text}</div>,
+        ...getColumnSearchProps(`mentorName`),
+      },
+      {
+        title: 'Survey Status',
+        dataIndex: 'surveyStatus',
+        key: 'surveyStatus',
+        width: 100,
+        render: (text) => <div className='data'>{text}</div>,
+      },
+    ];
+  };
+
+  const getCompanyColumns = () => {
+    return [
+      {
+        title: `Company Name`,
+        dataIndex: `companyName`,
+        key: `companyName`,
+        width: 100,
+        render: (text) => <div className='data'>{text}</div>,
+        ...getColumnSearchProps(`companyName`),
+      },
+      {
+        title: 'Survey Status',
+        dataIndex: 'surveyStatus',
+        key: 'surveyStatus',
+        width: 100,
+        render: (text) => <div className='data'>{text}</div>,
+      },
+    ];
+  };
+
+  const dataCompanies = getCompanySurvey();
+  const dataMentors = getMentorSurvey();
+  const mentorColumns = getMentorColumns();
+  const companyColumns = getCompanyColumns();
+  console.log(selectTable);
 
   return (
     <div className='modifySurvey'>
-      <div style={{ marginBottom: 16 }}>
+      <div className='surveyButtons'>
+        <Form.Item label='Table selection'>
+          <Button
+            className='selection'
+            value='mentor'
+            onClick={handleTableChange}
+          >
+            Mentors
+          </Button>
+          <Button
+            className='selection'
+            value='company'
+            onClick={handleTableChange}
+          >
+            Companies
+          </Button>
+        </Form.Item>
         <Button
+          className='sendButton'
           type='primary'
           onClick={loadSending}
           disabled={!hasSelected}
@@ -140,14 +215,16 @@ function ManageSurveyTable(props) {
         >
           Send Survey
         </Button>
-        <span style={{ marginLeft: 8 }}>
-          {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+        <span>
+          {hasSelected
+            ? `Selected ${selectedRowKeys.length} ${selectTable}s`
+            : ''}
         </span>
       </div>
       <Table
         rowSelection={{ ...rowSelection }}
-        columns={columns}
-        dataSource={data}
+        columns={selectTable === true ? mentorColumns : companyColumns}
+        dataSource={selectTable === true ? dataMentors : dataCompanies}
         pagination={false}
         bordered
         size='middle'
