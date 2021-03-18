@@ -35,6 +35,7 @@ function NavSider({ setView, viewSelect }) {
         selectedKeys={viewSelect}
         mode='inline'
         onClick={handleView}
+        style={{ width: 250 }}
       >
         <Menu.Item key='0' icon={<HomeOutlined />}>
           <Link to='/Home'>Home</Link>

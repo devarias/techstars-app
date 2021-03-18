@@ -295,6 +295,9 @@ const TableSchedule = ({
       sortOrder: sortedInfo.columnKey === 'Mentor' && sortedInfo.order,
       filteredValue: filteredInfo?.Mentor || null,
       onFilter: (value, record) => record.Mentor.indexOf(value) === 0,
+      render(text, record) {
+        return cancelMentor(text, record);
+      },
       sortOrder: sortedInfo.columnKey === 'Mentor' && sortedInfo.order,
       width: 150,
       fixed: 'left',
