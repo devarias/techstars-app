@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Space, Radio, Form } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Table, Input, Button, Space, Radio, Form, Modal } from 'antd';
+import {
+  SearchOutlined,
+  ExclamationCircleOutlined,
+  CheckSquareFilled,
+  CloseSquareFilled,
+} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import '../styles/ModifySurvey.css';
+
+const { confirm } = Modal;
 
 function ManageSurveyTable(props) {
   const [selectTable, setSelectTable] = useState(true);
@@ -10,6 +17,7 @@ function ManageSurveyTable(props) {
   const [searchedColumn, setSearchedColumn] = useState('');
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filteredInfo, setFilteredInfo] = useState({});
   const hasSelected = selectedRowKeys.length > 0;
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -18,12 +26,29 @@ function ManageSurveyTable(props) {
     setSearchedColumn(dataIndex);
   };
 
+  const handleChange = (filters) => {
+    setFilteredInfo(filters);
+  };
+
   const loadSending = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setSelectedRowKeys([]);
-      setLoading(false);
-    }, 1000);
+    confirm({
+      title: 'Are you sure you want to send the surveys?',
+      icon: <ExclamationCircleOutlined />,
+      content: `You are going to send ${selectedRowKeys.length} email surveys.`,
+      onOk() {
+        setLoading(true);
+        setTimeout(() => {
+          setSelectedRowKeys([]);
+          setLoading(false);
+          Modal.success({
+            content: 'The survey emails have been sent successfully.',
+          });
+        }, 2000);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
   };
 
   const handleTableChange = () => {
@@ -101,12 +126,14 @@ function ManageSurveyTable(props) {
       Row.key = index++;
       Row.mentorName = mentor;
       result.forEach((element) => {
-        if (element[`mentorVote`]) {
+        if (element[`mentorVote`] !== null) {
           totalAnswered++;
         }
         totalSurveys++;
       });
       Row['surveyStatus'] = `${totalAnswered}/${totalSurveys}`;
+      Row['totalAnswered'] = totalAnswered;
+      Row['totalSurveys'] = totalSurveys;
       objListRows.push(Row);
     }
     console.log(objListRows);
@@ -128,13 +155,15 @@ function ManageSurveyTable(props) {
         Row = { key: index++, companyName: obj.company };
         companyArray.forEach((element) => {
           if (element.company === Row.companyName) {
-            if (element[`companyVote`]) {
+            if (element[`companyVote`] !== null) {
               totalAnswered++;
             }
             totalSurveys++;
           }
         });
         Row['surveyStatus'] = `${totalAnswered}/${totalSurveys}`;
+        Row['totalAnswered'] = totalAnswered;
+        Row['totalSurveys'] = totalSurveys;
         objListRows.push(Row);
       }
     });
@@ -156,7 +185,34 @@ function ManageSurveyTable(props) {
         dataIndex: 'surveyStatus',
         key: 'surveyStatus',
         width: 100,
-        render: (text) => <div className='data'>{text}</div>,
+        render: (text, record) => {
+          return {
+            props: {
+              style: {
+                background:
+                  record.totalAnswered < record.totalSurveys
+                    ? '#ff5938'
+                    : '#4dad45',
+                borderRadius: '5px',
+                border: '1px solid #1f1f1f',
+              },
+            },
+            children: <div className='data'>{text}</div>,
+          };
+        },
+        filters: [
+          {
+            text: <CloseSquareFilled className='incomplete' />,
+            value: 0,
+          },
+          {
+            text: <CheckSquareFilled className='complete' />,
+            value: 1,
+          },
+        ],
+        filteredValue: filteredInfo ? filteredInfo['mentorName'] : null,
+        onFilter: (value, record) =>
+          record.totalAnswered / record.totalSurveys === value,
       },
     ];
   };
@@ -176,7 +232,34 @@ function ManageSurveyTable(props) {
         dataIndex: 'surveyStatus',
         key: 'surveyStatus',
         width: 100,
-        render: (text) => <div className='data'>{text}</div>,
+        render: (text, record) => {
+          return {
+            props: {
+              style: {
+                background:
+                  record.totalAnswered < record.totalSurveys
+                    ? '#ff5938'
+                    : '#4dad45',
+                borderRadius: '5px',
+                border: '1px solid #1f1f1f',
+              },
+            },
+            children: <div className='data'>{text}</div>,
+          };
+        },
+        filters: [
+          {
+            text: <CloseSquareFilled className='incomplete' />,
+            value: 0,
+          },
+          {
+            text: <CheckSquareFilled className='complete' />,
+            value: 1,
+          },
+        ],
+        filteredValue: filteredInfo ? filteredInfo['mentorName'] : null,
+        onFilter: (value, record) =>
+          record.totalAnswered / record.totalSurveys === value,
       },
     ];
   };
@@ -191,20 +274,20 @@ function ManageSurveyTable(props) {
     <div className='modifySurvey'>
       <div className='surveyButtons'>
         <Form.Item label='Table selection'>
-          <Button
+          <Radio.Button
             className='selection'
             value='mentor'
             onClick={handleTableChange}
           >
             Mentors
-          </Button>
-          <Button
+          </Radio.Button>
+          <Radio.Button
             className='selection'
             value='company'
             onClick={handleTableChange}
           >
             Companies
-          </Button>
+          </Radio.Button>
         </Form.Item>
         <Button
           className='sendButton'
@@ -217,8 +300,10 @@ function ManageSurveyTable(props) {
         </Button>
         <span>
           {hasSelected
-            ? `Selected ${selectedRowKeys.length} ${selectTable}s`
-            : ''}
+            ? `Selected ${selectedRowKeys.length} ${
+                selectTable ? 'mentors' : 'companies'
+              }`
+            : null}
         </span>
       </div>
       <Table
@@ -226,6 +311,7 @@ function ManageSurveyTable(props) {
         columns={selectTable === true ? mentorColumns : companyColumns}
         dataSource={selectTable === true ? dataMentors : dataCompanies}
         pagination={false}
+        onChange={handleChange}
         bordered
         size='middle'
         scroll={{ x: 'calc(300px + 50%)', y: 510 }}
