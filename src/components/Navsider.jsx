@@ -37,7 +37,7 @@ function NavSider({ setView, viewSelect }) {
         onClick={handleView}
       >
         <Menu.Item key='0' icon={<HomeOutlined />}>
-          <Link to='/Home'>Home</Link>
+          <Link to='/'>Home</Link>
         </Menu.Item>
         <SubMenu key='sub2' title='Matching' icon={<TeamOutlined />}>
           <Menu.Item key='1' icon={<BarChartOutlined />}>
