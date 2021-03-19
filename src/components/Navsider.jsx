@@ -26,7 +26,7 @@ function NavSider({ setView, viewSelect }) {
   return (
     <>
       <div className='logo'>
-        <a href='https://techstars.com'>
+        <a href='#'>
           <img src={logoUrl} alt='techstarts icon' />
         </a>
       </div>

@@ -19,9 +19,9 @@ img {
   background: #000;
 }
 .charts {
-  justify-content: center;
-  margin-top: 200px;
-  margin-left: 370px;
+  position: fixed;
+  top: 40%;
+  left: 40%;
 }
 .table {
   align-items: center;
