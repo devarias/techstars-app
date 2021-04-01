@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Button } from 'antd';
+import { Table } from 'antd';
 import RescheduleButton from '../parts/buttonReschedule';
 import SelectionButton from '../parts/buttonSelection';
 

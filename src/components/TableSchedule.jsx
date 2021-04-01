@@ -7,7 +7,7 @@ import CellPopUp from '../parts/CellPopOver';
 import CancelAllPopUp from '../parts/cancelAllPopUp';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import CellColor from '../parts/cellColor';
+
 const { Option } = Select;
 
 const type = 'DragableBodyCell';
@@ -61,9 +61,8 @@ const TableSchedule: React.FC = ({
   const [searchedColumn, setSearchedColumn] = useState('');
   /* Input text for the searched column */
   const [searchInput, setSearchInput] = useState('');
-  /* dataSource handles the data to be showed on the meetings table */
-
-  const mentor_all = resSchedule.map((obj) => {
+  
+   const mentor_all = resSchedule.map((obj) => {
     return { text: obj.Mentor, value: obj.Mentor };
   });
 
@@ -96,6 +95,7 @@ const TableSchedule: React.FC = ({
     let col = colors[index];
     return { company: comp, color: col };
   });
+  
   /* Function to search with a input text for coincidences on mentors columns */
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
