@@ -39,17 +39,6 @@ const TableSchedule = ({
   /*State that detects when a  meeting is cancelled */
   const [cancelMeeting, setCancelMeeting] = useState(0);
 
-  const getData = async (path) => {
-    const response = await fetch(`http://localhost:3033/api/${path}`, {
-      method: 'GET',
-      headers: {
-        'content-Type': 'application/json',
-        Accept: 'aplication/json',
-      },
-    });
-    return response.json();
-  };
-
   useEffect(async () => {
     if (cancelMeeting === true) {
       setCancelMeeting(false);

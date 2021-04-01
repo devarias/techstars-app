@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col } from 'antd';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import EditMentors from './EditMentors';
 import CSVReader2 from './UploadFile';
 import LoadTable from './LoadTable';
@@ -21,7 +16,6 @@ const Page = () => {
   const [view, setView] = useState(0);
   const [collapsed, setCollapse] = useState(false);
   const [resSchedule, setResSchedule] = useState([]);
-  const [viewSelect, setViewSelect] = useState(['0']);
   /* state to control the view of the table, it assures that all the content necessary is caught */
   const [tableDisplay, setTableDisplay] = useState(false);
   const [pendingMeetings, setPendingMeetings] = useState({});
@@ -115,7 +109,7 @@ const Page = () => {
             onCollapse={onCollapse}
             width={230}
           >
-            <Navsider setView={setView} viewselect={viewSelect} />
+            <Navsider setView={setView} />
           </Sider>
           <Layout className='site-layout'>
             <Content>

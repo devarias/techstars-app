@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Space } from 'antd';
+import { Row, Col } from 'antd';
 import DeleteMentor from '../parts/formDeleteMentors';
 import AddMentor from '../parts/formAddMentor';
 import '../styles/EditMentors.css';
