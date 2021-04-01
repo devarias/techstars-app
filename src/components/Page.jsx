@@ -76,38 +76,26 @@ const Page = () => {
     <LoadTable />,
     <LoadTable />,
     <LoadTable />,
-    <CSVReader2 setRechargeMeetings={setRechargeMeetings} setView={setView} />,
+    <CSVReader2
+      setResSchedule={setResSchedule}
+      setView={setView}
+      setViewSelect={setViewSelect}
+    />,
     <TableSchedule
       resSchedule={resSchedule}
       companies={companies}
       tableDisplay={tableDisplay}
-      setRechargeMeetings={setRechargeMeetings}
     />,
-    <TableReschedule
-      pendingMeetings={pendingMeetings}
-      setRechargeReschedule={setRechargeReschedule}
-      setView={setView}
-      mentors={mentors}
-    />,
-    <EditMentors
-      mentors={mentors}
-      companies={companies}
-      setReloadMentors={setReloadMentors}
-    />,
+    <TableReschedule />,
   ];
 
   return (
     <Router>
       <Switch>
-        {/* <Route exact path='/survey/:id' component={NotFound} />
-        <Route path='/Error' component={NotFound} /> */}
+        {/* <Route exact path='/survey/:id' component={NotFound}/> */}
+        <Route path='/Error' component={NotFound} />
         <Layout style={{ minHeight: '100vh' }}>
-          <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={onCollapse}
-            width={230}
-          >
+          <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <Navsider setView={setView} viewselect={viewSelect} />
           </Sider>
           <Layout className='site-layout'>
