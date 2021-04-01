@@ -11,11 +11,13 @@ import TableSchedule from './TableSchedule';
 import '../styles/Page.css';
 
 const { Content, Sider } = Layout;
+const url = 'https://techstars-api.herokuapp.com/api/';
 
 const Page = () => {
   const [view, setView] = useState(0);
   const [collapsed, setCollapse] = useState(false);
   const [resSchedule, setResSchedule] = useState([]);
+  const [viewSelect, setViewSelect] = useState(['0']);
   /* state to control the view of the table, it assures that all the content necessary is caught */
   const [tableDisplay, setTableDisplay] = useState(false);
   const [pendingMeetings, setPendingMeetings] = useState({});
@@ -27,16 +29,13 @@ const Page = () => {
   const [mentors, setMentors] = useState([]);
 
   const getData = async (path) => {
-    const response = await fetch(
-      `https://techstars-api.herokuapp.com/api/${path}`,
-      {
-        method: 'GET',
-        headers: {
-          'content-Type': 'application/json',
-          Accept: 'aplication/json',
-        },
-      }
-    );
+    const response = await fetch(url + path, {
+      method: 'GET',
+      headers: {
+        'content-Type': 'application/json',
+        Accept: 'aplication/json',
+      },
+    });
     return response.json();
   };
 
@@ -109,7 +108,7 @@ const Page = () => {
             onCollapse={onCollapse}
             width={230}
           >
-            <Navsider setView={setView} />
+            <Navsider setView={setView} viewselect={viewSelect} />
           </Sider>
           <Layout className='site-layout'>
             <Content>
