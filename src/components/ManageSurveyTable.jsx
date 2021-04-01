@@ -16,6 +16,7 @@ import {
   CloseSquareFilled,
 } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import ModalSurvey from './ModalSurvey';
 import '../styles/ModifySurvey.css';
 
 const { confirm } = Modal;

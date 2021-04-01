@@ -4,6 +4,7 @@ import ColorCode from './ColorCode';
 import TableResults from './TableResults';
 import Spinner from './Spinner';
 import ManageSurveyTable from './ManageSurveyTable';
+import Performance from './Performance';
 import '../styles/LoadTable.css';
 
 const companiesApi = 'https://techstars-api.herokuapp.com/api/companies';
