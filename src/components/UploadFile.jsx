@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { CSVReader } from 'react-papaparse';
 import { Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
+import { Progress } from 'antd';
 import '../styles/UploadFile.css';
 /**
  * UploadFile is the component to upload the CSV to generate the schedule
@@ -21,9 +22,12 @@ const UploadFile = ({ setRechargeMeetings, setView }) => {
    * the user to the scheduling table */
   const [fetched, setFetched] = useState(false);
   const [loading, setLoading] = useState(0);
+  const [time, setTime] = useState(0);
+  const [progress, setProgress] = useState(0);
+
   const message = [
     'Drop CSV file here or click to upload',
-    'Generating schedule.\nPlease wait to be redirected...',
+    <Progress type='circle' width={80} percent={progress} />,
   ];
   const history = useHistory();
 
@@ -37,6 +41,18 @@ const UploadFile = ({ setRechargeMeetings, setView }) => {
     }
     return () => {};
   }, [fetched]);
+
+  useEffect(() => {
+    if (loading === 1) {
+      const intervalId = setInterval(() => {
+        setTime((prev) => prev + 1);
+      }, 1500);
+      setProgress((prev) => prev + 5);
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [loading, time]);
 
   /* This funtions handles the actions when a CSV file is uploaded */
   const handleOnDrop = (data) => {
@@ -70,8 +86,7 @@ const UploadFile = ({ setRechargeMeetings, setView }) => {
         setIsReset(true);
         setLoading(1);
         fetch(
-          'https://techstars-api.herokuapp.com/api/schedule' /* Route to send the CSV file to 
-                                                    generate the schedule */,
+          'https://techstars-api.herokuapp.com/api/schedule', //Route to send the CSV file to generate the schedule
           {
             method: 'POST',
             headers: {
@@ -88,12 +103,14 @@ const UploadFile = ({ setRechargeMeetings, setView }) => {
             setIsReset(true);
             /* with this we call the use effect to redirect to other component and clean
               the actual component */
+            setProgress(100);
             setFetched(true);
           })
           .catch((error) => {
+            alert('File error, please see the example on the github repo');
             setIsReset(true);
             setJsonData(null);
-            console.error('Error:', error);
+            setLoading(0);
           });
       } else {
         setIsReset(true);
@@ -169,6 +186,9 @@ const UploadFile = ({ setRechargeMeetings, setView }) => {
         }}
       >
         <span>{message[loading]}</span>
+        {loading === 1 ? (
+          <div style={{ marginTop: 5 }}>Please wait to be redirected</div>
+        ) : null}
       </CSVReader>
       {handleSubmitButton()}
     </>
