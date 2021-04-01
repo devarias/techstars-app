@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Table, Input, Button, Space, Radio, Form, Modal } from 'antd';
+import {
+  Table,
+  Input,
+  Button,
+  Space,
+  Form,
+  Modal,
+  Progress,
+  Tooltip,
+} from 'antd';
 import {
   SearchOutlined,
   ExclamationCircleOutlined,
@@ -10,15 +19,30 @@ import Highlighter from 'react-highlight-words';
 import '../styles/ModifySurvey.css';
 
 const { confirm } = Modal;
+const mentorsApi = 'https://techstars-api.herokuapp.com/api/reminder/mentors/';
 
 function ManageSurveyTable(props) {
   const [selectTable, setSelectTable] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filteredInfo, setFilteredInfo] = useState({});
-  const hasSelected = selectedRowKeys.length > 0;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState({});
+  const hasSelected = selectedRows.length > 0;
+
+  const rowSelection = {
+    selectedRows,
+    selectedRowKeys,
+    onChange: (selectedRowKeys, selectedRows) => {
+      setSelectedRows(
+        selectedRows.map((item) => item.mentorName || item.companyName)
+      );
+      setSelectedRowKeys(selectedRowKeys);
+    },
+  };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -30,38 +54,62 @@ function ManageSurveyTable(props) {
     setFilteredInfo(filters);
   };
 
+  const handleModal = (client, answered, total) => {
+    setModalContent({ client: client, answered: answered, total: total });
+    setIsModalVisible(true);
+  };
+
+  const handleTableChange = () => {
+    setSelectedRows([]);
+    setSelectedRowKeys([]);
+    setSelectTable(!selectTable);
+  };
+
+  const sendReminder = async (rowArray) => {
+    const resultReminder = await fetch(mentorsApi, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify(rowArray),
+    });
+    console.log(resultReminder.status);
+    if (!resultReminder.ok) {
+      throw new Error();
+    }
+
+    return resultReminder.json();
+  };
+
   const loadSending = () => {
     confirm({
       title: 'Are you sure you want to send the surveys?',
       icon: <ExclamationCircleOutlined />,
-      content: `You are going to send ${selectedRowKeys.length} email surveys.`,
+      content: `You are going to send ${selectedRows.length} email surveys.`,
       onOk() {
         setLoading(true);
-        setTimeout(() => {
+        setTimeout(async () => {
+          console.log(selectedRows);
+          const reminder = await sendReminder(selectedRows).catch((error) => {
+            Modal.error({
+              content: 'The survey emails could not be sent.',
+            });
+          });
+          if (reminder) {
+            Modal.success({
+              content: 'The survey emails have been sent successfully.',
+            });
+            console.log(reminder);
+          }
+          setSelectedRows([]);
           setSelectedRowKeys([]);
           setLoading(false);
-          Modal.success({
-            content: 'The survey emails have been sent successfully.',
-          });
         }, 2000);
       },
       onCancel() {
         console.log('Cancel');
       },
     });
-  };
-
-  const handleTableChange = () => {
-    setSelectTable(!selectTable);
-    console.log(selectTable);
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: (selectedRowKeys) => {
-      console.log('selectedRowKeys changed: ', selectedRowKeys);
-      setSelectedRowKeys(selectedRowKeys);
-    },
   };
 
   const getColumnSearchProps = (dataIndex) => ({
@@ -119,61 +167,58 @@ function ManageSurveyTable(props) {
   const getMentorSurvey = () => {
     const objListRows = [];
     let index = 0;
-    for (const [mentor, result] of Object.entries(props.results[0])) {
-      let totalSurveys = 0;
-      let totalAnswered = 0;
-      const Row = {};
-      Row.key = index++;
-      Row.mentorName = mentor;
-      result.forEach((element) => {
-        if (element[`mentorVote`] !== null) {
-          totalAnswered++;
-        }
-        totalSurveys++;
-      });
-      Row['surveyStatus'] = `${totalAnswered}/${totalSurveys}`;
-      Row['totalAnswered'] = totalAnswered;
-      Row['totalSurveys'] = totalSurveys;
-      objListRows.push(Row);
+    for (const [mentor, result] of Object.entries(props.mentorResults[0])) {
+      if (result.some((obj) => obj.meetingDone)) {
+        let totalSurveys = [];
+        let totalAnswered = [];
+        const Row = {};
+        Row.key = index++;
+        Row.mentorName = mentor;
+        result.forEach((element) => {
+          if (element.meetingDone) {
+            if (element.mentorVote !== null) {
+              totalAnswered.push(element.company);
+            }
+            totalSurveys.push(element.company);
+          }
+        });
+        Row['surveyStatus'] = `${totalAnswered.length}/${totalSurveys.length}`;
+        Row['totalAnswered'] = totalAnswered;
+        Row['totalSurveys'] = totalSurveys;
+        objListRows.push(Row);
+      }
     }
-    console.log(objListRows);
     return objListRows;
   };
 
   const getCompanySurvey = () => {
     const objListRows = [];
-    const companyArray = [];
     let index = 0;
-    for (const result of Object.values(props.results[0])) {
-      companyArray.push(...result);
-    }
-    companyArray.forEach((obj) => {
-      let totalSurveys = 0;
-      let totalAnswered = 0;
-      let Row = '';
-      if (!objListRows.some((item) => item.companyName === obj.company)) {
-        Row = { key: index++, companyName: obj.company };
-        companyArray.forEach((element) => {
-          if (element.company === Row.companyName) {
-            if (element[`companyVote`] !== null) {
-              totalAnswered++;
-            }
-            totalSurveys++;
+    for (const [company, value] of Object.entries(props.companyResults[0])) {
+      let totalSurveys = [];
+      let totalAnswered = [];
+      const Row = { key: index++, companyName: company };
+      value.forEach((element) => {
+        if (element.meetingDone) {
+          if (element.companyVote !== null) {
+            totalAnswered.push(element.mentor);
           }
-        });
-        Row['surveyStatus'] = `${totalAnswered}/${totalSurveys}`;
-        Row['totalAnswered'] = totalAnswered;
-        Row['totalSurveys'] = totalSurveys;
-        objListRows.push(Row);
-      }
-    });
+          totalSurveys.push(element.mentor);
+        }
+      });
+      Row['surveyStatus'] = `${totalAnswered.length}/${totalSurveys.length}`;
+      Row['totalAnswered'] = totalAnswered;
+      Row['totalSurveys'] = totalSurveys;
+      objListRows.push(Row);
+    }
+
     return objListRows;
   };
 
   const getMentorColumns = () => {
     return [
       {
-        title: `Mentor Name`,
+        title: <div className='data'>Mentor Name</div>,
         dataIndex: `mentorName`,
         key: `mentorName`,
         width: 100,
@@ -181,24 +226,31 @@ function ManageSurveyTable(props) {
         ...getColumnSearchProps(`mentorName`),
       },
       {
-        title: 'Survey Status',
+        title: <div className='data'>Survey Tracking</div>,
         dataIndex: 'surveyStatus',
         key: 'surveyStatus',
         width: 100,
         render: (text, record) => {
-          return {
-            props: {
-              style: {
-                background:
-                  record.totalAnswered < record.totalSurveys
-                    ? '#ff5938'
-                    : '#4dad45',
-                borderRadius: '5px',
-                border: '1px solid #1f1f1f',
-              },
-            },
-            children: <div className='data'>{text}</div>,
-          };
+          const answered = record.totalAnswered.length;
+          const total = record.totalSurveys.length;
+          const percent = parseInt((answered * 100) / total);
+          const tooltip = `Total number survey answered: ${answered} Total Surveys: ${total}`;
+          return (
+            <Tooltip title={tooltip}>
+              <Progress
+                onClick={() =>
+                  handleModal(
+                    record.mentorName,
+                    record.totalAnswered,
+                    record.totalSurveys
+                  )
+                }
+                percent={percent}
+                status={percent !== 100 ? 'active' : 'normal'}
+                strokeColor={answered === total ? '#37fa3a' : '#fa3a37'}
+              />
+            </Tooltip>
+          );
         },
         filters: [
           {
@@ -220,7 +272,7 @@ function ManageSurveyTable(props) {
   const getCompanyColumns = () => {
     return [
       {
-        title: `Company Name`,
+        title: <div className='data'>Company Name</div>,
         dataIndex: `companyName`,
         key: `companyName`,
         width: 100,
@@ -228,24 +280,31 @@ function ManageSurveyTable(props) {
         ...getColumnSearchProps(`companyName`),
       },
       {
-        title: 'Survey Status',
+        title: <div className='data'>Survey Tracking</div>,
         dataIndex: 'surveyStatus',
         key: 'surveyStatus',
         width: 100,
         render: (text, record) => {
-          return {
-            props: {
-              style: {
-                background:
-                  record.totalAnswered < record.totalSurveys
-                    ? '#ff5938'
-                    : '#4dad45',
-                borderRadius: '5px',
-                border: '1px solid #1f1f1f',
-              },
-            },
-            children: <div className='data'>{text}</div>,
-          };
+          const answered = record.totalAnswered.length;
+          const total = record.totalSurveys.length;
+          const percent = parseInt((answered * 100) / total);
+          const tooltip = `Total number survey answered: ${answered} Total Surveys: ${total}`;
+          return (
+            <Tooltip title={tooltip}>
+              <Progress
+                onClick={() =>
+                  handleModal(
+                    record.companyName,
+                    record.totalAnswered,
+                    record.totalSurveys
+                  )
+                }
+                percent={percent}
+                status={percent !== 100 ? 'active' : 'normal'}
+                strokeColor={answered === total ? '#37fa3a' : '#fa3a37'}
+              />
+            </Tooltip>
+          );
         },
         filters: [
           {
@@ -268,26 +327,25 @@ function ManageSurveyTable(props) {
   const dataMentors = getMentorSurvey();
   const mentorColumns = getMentorColumns();
   const companyColumns = getCompanyColumns();
-  console.log(selectTable);
 
   return (
     <div className='modifySurvey'>
       <div className='surveyButtons'>
         <Form.Item label='Table selection'>
-          <Radio.Button
+          <Button
             className='selection'
             value='mentor'
             onClick={handleTableChange}
           >
             Mentors
-          </Radio.Button>
-          <Radio.Button
+          </Button>
+          <Button
             className='selection'
             value='company'
             onClick={handleTableChange}
           >
             Companies
-          </Radio.Button>
+          </Button>
         </Form.Item>
         <Button
           className='sendButton'
@@ -296,24 +354,21 @@ function ManageSurveyTable(props) {
           disabled={!hasSelected}
           loading={loading}
         >
-          Send Survey
+          Send Reminder
         </Button>
-        <span>
-          {hasSelected
-            ? `Selected ${selectedRowKeys.length} ${
-                selectTable ? 'mentors' : 'companies'
-              }`
-            : null}
-        </span>
+        <ModalSurvey
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          modalContent={modalContent}
+        />
       </div>
       <Table
-        rowSelection={{ ...rowSelection }}
-        columns={selectTable === true ? mentorColumns : companyColumns}
-        dataSource={selectTable === true ? dataMentors : dataCompanies}
+        rowSelection={rowSelection}
+        columns={selectTable ? mentorColumns : companyColumns}
+        dataSource={selectTable ? dataMentors : dataCompanies}
         pagination={false}
         onChange={handleChange}
         bordered
-        size='middle'
         scroll={{ x: 'calc(300px + 50%)', y: 510 }}
       />
     </div>

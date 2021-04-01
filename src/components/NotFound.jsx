@@ -14,7 +14,7 @@ function NotFound() {
           The page you are looking for might have been removed or is temporarily
           unavailable.
         </p>
-        <a href='/Home'>Back to Home</a>
+        <a href='/'>Back to Home</a>
       </div>
     </div>
   );

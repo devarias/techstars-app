@@ -4,14 +4,6 @@ import { FireFilled } from '@ant-design/icons';
 import '../styles/ModalBox.css';
 
 function ModalBox(props) {
-  const handleOk = () => {
-    props.setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    props.setIsModalVisible(false);
-  };
-
   let mentorVote = 4;
   let companyVote = 4;
   let mentorRanking = 6;
@@ -30,6 +22,13 @@ function ModalBox(props) {
     'perfectMatch',
     'pending',
   ];
+  const handleOk = () => {
+    props.setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    props.setIsModalVisible(false);
+  };
 
   if (info.mentorVote !== null) {
     mentorVote = info.mentorVote;

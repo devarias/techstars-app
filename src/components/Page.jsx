@@ -61,10 +61,18 @@ const Page = () => {
     setReloadMentors(false);
   }, [rechargeMeetings, rechargeReschedule, reloadMentors]);
 
-  const classObjects = ['home', 'surveyStatus', 'results', 'charts', 'table'];
+  const classObjects = [
+    'home',
+    'surveyStatus',
+    'performance',
+    'results',
+    'charts',
+    'table',
+  ];
   const pathRoute = [
     '/',
     '/SurveyStatus',
+    '/Performance',
     '/Results',
     '/GenerateMeetings',
     '/MeetingsTable',
@@ -72,6 +80,7 @@ const Page = () => {
   const onCollapse = (collapsed) => setCollapse(collapsed);
   const viewObjects = [
     'home',
+    <LoadTable />,
     <LoadTable />,
     <LoadTable />,
     <CSVReader2 setRechargeMeetings={setRechargeMeetings} setView={setView} />,
@@ -117,7 +126,6 @@ const Page = () => {
                       {viewObjects[view]}
                     </Col>
                   </Route>
-                  <Redirect to='/Error' />
                 </Switch>
               </Row>
             </Content>
