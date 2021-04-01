@@ -69,6 +69,8 @@ const Page = () => {
     '/Results',
     '/GenerateMeetings',
     '/MeetingsTable',
+    '/Schedule',
+    '/Mentors',
   ];
   const onCollapse = (collapsed) => setCollapse(collapsed);
   const viewObjects = [
@@ -85,6 +87,19 @@ const Page = () => {
       resSchedule={resSchedule}
       companies={companies}
       tableDisplay={tableDisplay}
+      setRechargeMeetings={setRechargeMeetings}
+      setResSchedule={setResSchedule}
+    />,
+    <TableReschedule
+      pendingMeetings={pendingMeetings}
+      setRechargeReschedule={setRechargeReschedule}
+      setView={setView}
+      mentors={mentors}
+    />,
+    <EditMentors
+      mentors={mentors}
+      companies={companies}
+      setReloadMentors={setReloadMentors}
     />,
     <TableReschedule />,
   ];

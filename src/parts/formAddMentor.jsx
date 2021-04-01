@@ -2,14 +2,13 @@ import React from 'react';
 import { Form, Input, Button, Select, Space } from 'antd';
 const { Option } = Select;
 
-const AddMentor = ({ mentors, companies, setReloadMentors }) => {
+const AddMentor = ({ companies, setReloadMentors }) => {
   const [form] = Form.useForm();
   const submitaddMentor = async (value) => {
     form.resetFields();
     let bodyData = JSON.stringify([
       { mentor: value.mentor, email: value.email, Companies: value.Companies },
     ]);
-    console.log(bodyData);
     await fetch(
       'https://techstars-api.herokuapp.com/api/mentors' /* Route to send the CSV file to 
                                                     generate the schedule */,
@@ -131,7 +130,7 @@ const AddMentor = ({ mentors, companies, setReloadMentors }) => {
           <Select mode='multiple'>{listCompanies}</Select>
         </Form.Item>
         <Form.Item style={{ paddingLeft: 162 }}>
-          <Button type='primary' htmlType='submit'>
+          <Button type='primary' htmlType='submit' style={{ borderRadius: 5 }}>
             Submit
           </Button>
         </Form.Item>

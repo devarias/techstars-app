@@ -58,10 +58,10 @@ function NavSider({ setView, viewSelect }) {
             <Link to='/MeetingsTable'>Meetings Table</Link>
           </Menu.Item>
           <Menu.Item key='6' icon={<ContactsOutlined />}>
-            <Link to='/Reschedule'>Reschedule</Link>
+            <Link to='/Schedule'>Schedule</Link>
           </Menu.Item>
           <Menu.Item key='7' icon={<UserOutlined />}>
-            <Link to='/Edit Mentors'>Edit Mentors</Link>
+            <Link to='/Mentors'>Mentors</Link>
           </Menu.Item>
         </SubMenu>
         <Menu.Item key='8' icon={<LogoutOutlined />}>

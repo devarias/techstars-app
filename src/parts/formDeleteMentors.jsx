@@ -63,7 +63,7 @@ const DeleteMentor = ({ mentors, setReloadMentors }) => {
           <Select>{listMentors}</Select>
         </Form.Item>
         <Form.Item style={{ paddingLeft: 143 }}>
-          <Button type='primary' htmlType='submit'>
+          <Button type='primary' htmlType='submit' style={{ borderRadius: 5 }}>
             Submit
           </Button>
         </Form.Item>

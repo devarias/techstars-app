@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Popover } from 'antd';
 import PopButtons from './buttonsOfPopUp';
 import '../styles/CellPopOver.css';
+
 /**
  * component that renders the popup menu of each cell on tableschedule
  * props:
@@ -17,6 +18,7 @@ const CellPopUp = ({ text, record, setCancelMeeting, setView }) => {
   const handleVisiblePopUp = (visible) => {
     setPopUp(popUp ? false : true);
   };
+
   return (
     <Popover
       content={
