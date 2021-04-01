@@ -99,8 +99,8 @@ const Page = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path='/survey/:id' component={NotFound} />
-        <Route path='/Error' component={NotFound} />
+        {/* <Route exact path='/survey/:id' component={NotFound} />
+        <Route path='/Error' component={NotFound} /> */}
         <Layout style={{ minHeight: '100vh' }}>
           <Sider
             collapsible
