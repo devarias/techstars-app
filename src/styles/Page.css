@@ -19,9 +19,8 @@ img {
   background: #000;
 }
 .charts {
-  position: fixed;
-  top: 40%;
-  left: 40%;
+  position: flex;
+  flex-direction: row;
 }
 .table {
   align-items: center;
