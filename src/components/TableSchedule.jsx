@@ -5,12 +5,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import { CSVDownloader, jsonToCSV } from 'react-papaparse';
 import CellPopUp from '../parts/CellPopOver';
 import CancelAllPopUp from '../parts/cancelAllPopUp';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-
-const { Option } = Select;
-
-const type = 'DragableBodyCell';
 
 const colors = [
   '#483D8B',
@@ -61,8 +55,8 @@ const TableSchedule: React.FC = ({
   const [searchedColumn, setSearchedColumn] = useState('');
   /* Input text for the searched column */
   const [searchInput, setSearchInput] = useState('');
-  
-   const mentor_all = resSchedule.map((obj) => {
+
+  const mentor_all = resSchedule.map((obj) => {
     return { text: obj.Mentor, value: obj.Mentor };
   });
 
@@ -95,7 +89,7 @@ const TableSchedule: React.FC = ({
     let col = colors[index];
     return { company: comp, color: col };
   });
-  
+
   /* Function to search with a input text for coincidences on mentors columns */
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -1121,22 +1115,20 @@ const TableSchedule: React.FC = ({
         {renderDownload()}
       </Space>
       {tableDisplay ? (
-        <DndProvider backend={HTML5Backend}>
-          <Table
-            className='ant-table-layout-fixed'
-            rowKey={(record) => record.uid}
-            style={{ marginBottom: 5 }}
-            bordered
-            pagination={{ pageSize: 100 }}
-            scroll={{ x: 'max-content' }}
-            size='small'
-            columns={dataSources[view].columns}
-            sticky
-            //dataSource={block === 'AM' ? dataFilterAM : dataFilterPM}
-            dataSource={dataSources[view].data}
-            onChange={handleChange}
-          />
-        </DndProvider>
+        <Table
+          className='ant-table-layout-fixed'
+          rowKey={(record) => record.uid}
+          style={{ marginBottom: 5 }}
+          bordered
+          pagination={{ pageSize: 100 }}
+          scroll={{ x: 'max-content' }}
+          size='small'
+          columns={dataSources[view].columns}
+          sticky
+          //dataSource={block === 'AM' ? dataFilterAM : dataFilterPM}
+          dataSource={dataSources[view].data}
+          onChange={handleChange}
+        />
       ) : null}
     </>
   );

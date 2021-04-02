@@ -37,7 +37,7 @@ const UploadFile = ({ setRechargeMeetings, setView }) => {
     if (fetched === true) {
       history.push('/MeetingsTable');
       setRechargeMeetings(true);
-      setView(4);
+      setView(5);
     }
     return () => {};
   }, [fetched]);
