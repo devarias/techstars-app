@@ -27,7 +27,7 @@ function TableResults(props) {
     setSearchedColumn(dataIndex);
   };
 
-  const handleChange = (filters) => {
+  const handleChange = (filters, sorter) => {
     setFilteredInfo(filters);
   };
 
@@ -39,11 +39,15 @@ function TableResults(props) {
   const getData = (results) => {
     const array = [];
     for (const [mentor, result] of Object.entries(results[0])) {
-      const objfinal = { key: objIndex++, mentorName: mentor };
-      result.forEach((element) => {
-        objfinal[element.company] = element.matchResult;
-      });
-      array.push(objfinal);
+      if (result.some((obj) => obj['meetingDone'])) {
+        const finalObj = { key: objIndex++, mentorName: mentor };
+        result.forEach((element) => {
+          if (element.meetingDone) {
+            finalObj[element.company] = element.matchResult;
+          }
+        });
+        array.push(finalObj);
+      }
     }
     return array;
   };
@@ -100,12 +104,11 @@ function TableResults(props) {
       ),
   });
 
-  const columns = props.company.map((obj) => {
+  const columns = props.company.map((obj, i) => {
     return {
       title: obj.company,
       dataIndex: obj.company,
-      key: obj.company,
-      width: 130,
+      width: 150,
       render: (value) => {
         if (value !== undefined) {
           const codeColor = [
@@ -159,18 +162,34 @@ function TableResults(props) {
       ],
       filteredValue: filteredInfo ? filteredInfo[obj.company] : null,
       onFilter: (value, record) => record[obj.company] === value,
+      sorter: (a, b) => {
+        if (b[obj.company] === null && a[obj.company] === undefined) {
+          return 1;
+        } else if (b[obj.company] === undefined && a[obj.company] === null) {
+          return -1;
+        } else if (a[obj.company] === null || a[obj.company] === undefined) {
+          return 1;
+        } else if (b[obj.company] === null || b[obj.company] === undefined) {
+          return -1;
+        } else if (
+          (a[obj.company] === null && b[obj.company] === null) ||
+          (b[obj.company] === undefined && a[obj.company] === undefined)
+        ) {
+          return 0;
+        } else {
+          return b[obj.company] - a[obj.company];
+        }
+      },
     };
   });
 
   columns.unshift({
     title: 'Mentor Name',
     dataIndex: 'mentorName',
-    key: 'mentorName',
     fixed: true,
     width: 150,
     render: (value) => value,
     sorter: (a, b) => a.mentorName.localeCompare(b.mentorName),
-    defaultSortOrder: 'ascend',
     ...getColumnSearchProps('mentorName'),
   });
 
@@ -198,7 +217,7 @@ function TableResults(props) {
             setRowMentor(record.mentorName);
           },
         })}
-        scroll={{ x: 'calc(700px + 50%)', y: 410 }}
+        scroll={{ x: 'calc(700 + 50%)', y: 450 }}
       />
     </>
   );

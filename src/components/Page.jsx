@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col } from 'antd';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import EditMentors from './EditMentors';
 import CSVReader2 from './UploadFile';
 import LoadTable from './LoadTable';
@@ -16,6 +11,7 @@ import TableSchedule from './TableSchedule';
 import '../styles/Page.css';
 
 const { Content, Sider } = Layout;
+const url = 'https://techstars-api.herokuapp.com/api/';
 
 const Page = () => {
   const [view, setView] = useState(0);
@@ -33,16 +29,13 @@ const Page = () => {
   const [mentors, setMentors] = useState([]);
 
   const getData = async (path) => {
-    const response = await fetch(
-      `https://techstars-api.herokuapp.com/api/${path}`,
-      {
-        method: 'GET',
-        headers: {
-          'content-Type': 'application/json',
-          Accept: 'aplication/json',
-        },
-      }
-    );
+    const response = await fetch(url + path, {
+      method: 'GET',
+      headers: {
+        'content-Type': 'application/json',
+        Accept: 'aplication/json',
+      },
+    });
     return response.json();
   };
 
@@ -61,10 +54,18 @@ const Page = () => {
     setReloadMentors(false);
   }, [rechargeMeetings, rechargeReschedule, reloadMentors]);
 
-  const classObjects = ['home', 'surveyStatus', 'results', 'charts', 'table'];
+  const classObjects = [
+    'home',
+    'surveyStatus',
+    'performance',
+    'results',
+    'charts',
+    'table',
+  ];
   const pathRoute = [
     '/',
     '/SurveyStatus',
+    '/Performance',
     '/Results',
     '/GenerateMeetings',
     '/MeetingsTable',
@@ -76,7 +77,12 @@ const Page = () => {
     'home',
     <LoadTable />,
     <LoadTable />,
-    <CSVReader2 setRechargeMeetings={setRechargeMeetings} setView={setView} />,
+    <LoadTable />,
+    <CSVReader2
+      setResSchedule={setResSchedule}
+      setView={setView}
+      setViewSelect={setViewSelect}
+    />,
     <TableSchedule
       resSchedule={resSchedule}
       companies={companies}
@@ -95,20 +101,16 @@ const Page = () => {
       companies={companies}
       setReloadMentors={setReloadMentors}
     />,
+    <TableReschedule />,
   ];
 
   return (
     <Router>
       <Switch>
-        <Route exact path='/survey/:id' component={NotFound} />
-        <Route path='/Error' component={NotFound} />
+        {/* <Route exact path='/survey/:id' component={NotFound}/> */}
+        {/* <Route path='/Error' component={NotFound} /> */}
         <Layout style={{ minHeight: '100vh' }}>
-          <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={onCollapse}
-            width={230}
-          >
+          <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <Navsider setView={setView} viewselect={viewSelect} />
           </Sider>
           <Layout className='site-layout'>
@@ -120,7 +122,6 @@ const Page = () => {
                       {viewObjects[view]}
                     </Col>
                   </Route>
-                  <Redirect to='/Error' />
                 </Switch>
               </Row>
             </Content>

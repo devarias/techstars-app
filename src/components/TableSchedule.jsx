@@ -97,7 +97,6 @@ const TableSchedule: React.FC = ({
     let col = colors[index];
     return { company: comp, color: col };
   });
-
   /* Function to search with a input text for coincidences on mentors columns */
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({

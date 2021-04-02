@@ -6,9 +6,6 @@
   justify-content: center;
   align-items: center;
 }
-.sendButton:hover .sendButton:active {
-  background: #257f40;
-}
 .surveyButtons {
   display: flex;
   flex: 1 0 auto;
@@ -22,22 +19,4 @@
 }
 .data {
   text-align: center;
-  display: block;
-  margin: auto;
-  border-radius: 5%;
-}
-
-.incomplete {
-  color: #ff5938;
-}
-.complete {
-  color: #4dad45;
-}
-.good {
-  background-color: #4dad45;
-  width: 50%;
-}
-.poor {
-  background-color: #ff5938;
-  width: 50%;
 }
