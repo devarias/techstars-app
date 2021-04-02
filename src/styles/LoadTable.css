@@ -1,6 +1,6 @@
-.results,
-.surveyStatus,
-.performance {
+div.results,
+div.surveyStatus,
+div.performance {
   display: flex;
   align-content: center;
   flex-direction: column;

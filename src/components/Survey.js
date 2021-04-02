@@ -25,7 +25,7 @@ function Survey(props) {
   const [flag, setFlag] = useState(false);
   const [flip, isFlipped] = useState(true);
   const [count, setCount] = useState(0);
-  let feedback = '';
+  const [feedback, setFeedback] = useState(props.txtA ? props.txtA : '');
   const marks = {
     1: '1',
     2: '2',
@@ -91,7 +91,6 @@ function Survey(props) {
     if (state) {
       setCount((num += 1));
       swt = 1;
-      feedback = document.getElementById(props.meetings).value;
       if (card === 2) {
         handleSubmit(
           card,
@@ -206,13 +205,16 @@ function Survey(props) {
           <textarea
             id={props.meetings}
             className='feedback'
-            maxlength='250'
+            maxLength='250'
             cols='10'
             rows='5'
-            placeholder='Type here'
+            placeholder={'Type here'}
             name='Feedback'
-            placeholder={props.txtA}
-            value={feedback.value}
+            value={feedback}
+            onChange={(e) => {
+              console.log(e.target.value);
+              setFeedback(e.target.value);
+            }}
           />
           <div className='lock'>
             <Button

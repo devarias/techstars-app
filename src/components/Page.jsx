@@ -8,6 +8,7 @@ import Navsider from './Navsider';
 import NotFound from './NotFound';
 import TableReschedule from './TableReschedule';
 import TableSchedule from './TableSchedule';
+import Welcome from './Welcome';
 import '../styles/Page.css';
 
 const { Content, Sider } = Layout;
@@ -74,7 +75,7 @@ const Page = () => {
   ];
   const onCollapse = (collapsed) => setCollapse(collapsed);
   const viewObjects = [
-    'home',
+    <Welcome />,
     <LoadTable />,
     <LoadTable />,
     <LoadTable />,
