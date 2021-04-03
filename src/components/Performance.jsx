@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { Table, Button, Form, Input, Space} from 'antd';
+import { Table, Button, Form, Input, Space, Tag} from 'antd';
 import ModalPerformance from './ModalPerformance';
 import Highlighter from 'react-highlight-words';
 import '../styles/ModifySurvey.css';
@@ -11,12 +11,17 @@ function Performance(props) {
   const [modalContent, setModalContent] = useState({});
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [filteredInfo, setFilteredInfo] = useState({});
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   }
+
+ const handleChange = (filters) => {
+    setFilteredInfo(filters);
+  };
 
   const handleTableChange = () => {
     setSelectTable(!selectTable);
@@ -89,7 +94,7 @@ function Performance(props) {
       ...getColumnSearchProps('companyName')
     },
     {
-      title: <div className='data'> Company Performance</div>,
+      title: <div className='data'>Company Performance</div>,
       dataIndex: 'performance',
       key: 'performance',
       width: 100,
@@ -142,6 +147,18 @@ function Performance(props) {
           {value} %
         </div>
       ),
+      filters: [
+          {
+            text: <Tag color='green' key='more popular'>MORE POPULAR</Tag>,
+            value: 1,
+          },
+          {
+            text: <Tag color='volcano' key='less popular'>LESS POPULAR</Tag>,
+            value: 0 || -1,
+          },
+        ],
+        filteredValue: filteredInfo ? filteredInfo['performance'] : null,
+        onFilter: (value, record) => Math.floor((record.performance - 1) / 50) > value,
     },
   ];
 
@@ -193,6 +210,7 @@ function Performance(props) {
         columns={selectTable ? mentorColumns : companyColumns}
         dataSource={selectTable ? dataMentors : dataCompanies}
         pagination={false}
+        onChange={handleChange}
         bordered
         size='middle'
         scroll={{ x: 'calc(300px + 50%)', y: 510 }}

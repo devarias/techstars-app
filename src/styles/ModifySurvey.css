@@ -20,7 +20,7 @@
 .surveyButtons span {
   margin-top: 1%;
 }
-.data {
+div.data{
   text-align: center;
   display: block;
   margin: auto;

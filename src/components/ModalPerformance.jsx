@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import DemoPie from './DemoPie';
 import '../styles/ModalBox.css';
 
 function ModalPerformance(props) {
+
+  const performance = props.modalContent;
+
   let client = '';
   if (props.modalContent.companyName) {
     client = props.modalContent.companyName;
@@ -19,18 +22,7 @@ function ModalPerformance(props) {
     props.setIsModalVisible(false);
   };
 
-  const showDescription = () => {
-    const performance = props.modalContent;
-
-    return (
-      <DemoPie
-        want={performance.wants}
-        will={performance.willing}
-        wont={performance.wont}
-      />
-    );
-  };
-  return (
+  return ( 
     <Modal
       title={`${client} Performance`}
       visible={props.isModalVisible}
@@ -43,7 +35,11 @@ function ModalPerformance(props) {
       <span className={props.modalContent.performance < 50 ? 'poor' : 'good'}> {props.modalContent.performance} %</span> 
       </p>
       <p>Below a summary of the votes {client} received</p>
-        {showDescription()}
+        <DemoPie
+        want={performance.wants}
+        will={performance.willing}
+        wont={performance.wont}
+      />
       </div>
     </Modal>
   );

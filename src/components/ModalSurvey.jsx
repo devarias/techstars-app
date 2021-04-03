@@ -12,10 +12,10 @@ function ModalSurvey(props) {
   };
 
   const showDescription = () => {
-    let answeredArray = props.modalContent.answered.map((element) => <li>{element}</li>);
-    let pendingArray = props.modalContent.total.map((element) => {
-      if (!props.modalContent.answered.includes(element)) {
-        return <li>{element}</li>;
+    let answeredArray = props.modalContent.answered.map((elementAnswer) => <li>{elementAnswer}</li>);
+    let pendingArray = props.modalContent.total.map((elementPending) => {
+      if (!props.modalContent.answered.includes(elementPending)) {
+        return <li>{elementPending}</li>;
       }
     });
 

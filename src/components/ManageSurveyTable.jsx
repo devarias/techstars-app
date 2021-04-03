@@ -43,6 +43,9 @@ function ManageSurveyTable(props) {
       );
       setSelectedRowKeys(selectedRowKeys);
     },
+    getCheckboxProps: (record) => ({
+      disabled: record.totalAnswered.length === record.totalSurveys.length,
+    })
   };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {

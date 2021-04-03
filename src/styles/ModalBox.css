@@ -48,6 +48,11 @@ span.pending,
 ul.pending {
   color: white;
 }
+ul.pending, ul.answered {
+  display: flex;
+  height: 300px;
+  flex-flow: column wrap;
+}
 ul {
   list-style-type: none;
   padding: 0;
