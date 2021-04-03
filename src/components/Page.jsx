@@ -117,7 +117,7 @@ const Page = () => {
             <Content>
               <Row className='content'>
                 <Switch>
-                  <Route exact path={pathRoute[view]}>
+                  <Route path={pathRoute[view]}>
                     <Col span={24} className={classObjects[view]}>
                       {viewObjects[view]}
                     </Col>

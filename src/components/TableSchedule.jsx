@@ -1120,7 +1120,7 @@ const TableSchedule: React.FC = ({
             (slot !== 'Mentor') &
             (slot !== 'Email') &
             (slot !== 'Day') &
-            (slot != 'Block')
+            (slot !== 'Block')
           ) {
             if (companyFilter[item][slot] !== value)
               companyFilter[item][slot] = null;
