@@ -18,7 +18,6 @@ export default class ColoredScrollbars extends Component {
   renderView({ style, ...props }) {
     const { top } = this.state;
     const viewStyle = {
-      padding: 15,
       backgroundColor: '#000000',
     };
     return (

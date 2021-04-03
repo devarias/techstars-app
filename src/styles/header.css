@@ -1,41 +1,28 @@
-header {
+.barbckg {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  background-color: rgb(25, 25, 25);
+  position: fixed;
+  z-index: 2;
+  justify-content: center;
   align-items: center;
-  opacity: 0.1;
+  text-align: center;
+  width: 100%;
+  height: 7%;
+}
+
+.bar {
+  border-radius: 5px;
+  max-width: 800px;
+  width: 50%;
+}
+.btn-modal {
+  margin-left: 2%;
+  border: none;
 }
 .ant-modal-body p {
   font-weight: 900;
   text-align: center;
-}
-.barbckg {
-  display: flex;
-  flex-direction: row;
-  margin-top: -1%;
-  background-color: rgb(25, 25, 25);
-  z-index: 1;
-  position: fixed;
-  align-content: center;
-  max-width: 100%;
-  height: 7%;
-  width: 100%;
-}
-.bar {
-  border-radius: 5px;
-  z-index: 2;
-  position: fixed;
-  align-content: center;
-  margin-left: 20%;
-  margin-top: 12px;
-  max-width: 800px;
-  height: 5%;
-  width: 100%;
-  transform-origin: center center;
-}
-
-.btn-circle {
-  transform: translate(85em, 0.5em);
 }
 .button1 {
   width: 100px;
@@ -73,13 +60,6 @@ header {
   outline: none;
 }
 
-.logout {
-  background-color: transparent;
-  border: none;
-  font-size: 14px;
-  padding-left: 0;
-  outline: none;
-}
 @media all and (max-width: 500px) {
   .bar {
     border-radius: 5px;
@@ -87,7 +67,6 @@ header {
     z-index: 2;
     position: fixed;
     align-content: center;
-    margin-left: 20%;
     margin-top: 15px;
     max-width: 200px;
     height: 5%;
@@ -104,7 +83,7 @@ header {
     width: 100%;
     transform-origin: center center;
   }
-  .btn-circle {
-    transform: translate(20em, 0.5em);
+  .btn-modal {
+    margin-right: -80%;
   }
 }
