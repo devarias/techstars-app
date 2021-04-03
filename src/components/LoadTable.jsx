@@ -9,7 +9,7 @@ import '../styles/LoadTable.css';
 
 const companiesApi = 'https://techstars-api.herokuapp.com/api/companies';
 const resultsApi = 'https://techstars-api.herokuapp.com/api/results/';
-const performanceApi = 'http://techstars-api.herokuapp.com/api/performance/';
+const performanceApi = 'https://techstars-api.herokuapp.com/api/performance/';
 
 function LoadTable() {
   const [todoCompanies, setTodoCompanies] = useState('');
