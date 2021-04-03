@@ -45,7 +45,7 @@ function Performance(props) {
     const objListRows = [];
     let index = 0;
     for (const [company, value] of Object.entries(props.companyResults)) {
-      if (value.performance) {
+      if (value.performance !== null) {
         let Row = {
           key: index++,
           companyName: company,
@@ -85,7 +85,7 @@ function Performance(props) {
     const objListRows = [];
     let index = 0;
     for (const [mentor, value] of Object.entries(props.mentorResults)) {
-      if (value.performance) {
+      if (value.performance !== null) {
         let Row = {
           key: index++,
           mentorName: mentor,
