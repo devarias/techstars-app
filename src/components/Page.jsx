@@ -79,6 +79,7 @@ const Page = () => {
     <LoadTable />,
     <LoadTable />,
     <CSVReader2
+      setRechargeMeetings={setRechargeMeetings}
       setResSchedule={setResSchedule}
       setView={setView}
       setViewSelect={setViewSelect}
@@ -107,8 +108,6 @@ const Page = () => {
   return (
     <Router>
       <Switch>
-        {/* <Route exact path='/survey/:id' component={NotFound}/> */}
-        {/* <Route path='/Error' component={NotFound} /> */}
         <Layout style={{ minHeight: '100vh' }}>
           <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <Navsider setView={setView} viewselect={viewSelect} />
@@ -127,6 +126,7 @@ const Page = () => {
             </Content>
           </Layout>
         </Layout>
+        <Route path='/Error' component={NotFound} />
       </Switch>
     </Router>
   );

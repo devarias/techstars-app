@@ -22,6 +22,7 @@ function ModalBox(props) {
     'perfectMatch',
     'pending',
   ];
+
   const handleOk = () => {
     props.setIsModalVisible(false);
   };
