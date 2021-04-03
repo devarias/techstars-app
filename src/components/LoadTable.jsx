@@ -9,7 +9,7 @@ import '../styles/LoadTable.css';
 
 const companiesApi = 'https://techstars-api.herokuapp.com/api/companies';
 const resultsApi = 'https://techstars-api.herokuapp.com/api/results/';
-const performanceApi = 'http://techstars-api.herokuapp.com/api/performance/';
+const performanceApi = 'https://techstars-api.herokuapp.com/api/performance/';
 
 function LoadTable() {
   const [todoCompanies, setTodoCompanies] = useState('');
@@ -64,15 +64,23 @@ function LoadTable() {
 
   useEffect(() => {
     async function fetchData() {
-      let result = await getResults('mentors').catch((error) => <Redirect to='/Error' />);
+      let result = await getResults('mentors').catch((error) => (
+        <Redirect to='/Error' />
+      ));
       setMentorResults(result);
-      result = await getResults('companies').catch((error) => <Redirect to='/Error' />);
+      result = await getResults('companies').catch((error) => (
+        <Redirect to='/Error' />
+      ));
       setCompanyResults(result);
       result = await getCompanies().catch((error) => <Redirect to='/Error' />);
       setTodoCompanies(result);
-      result = await getPerformance('companies').catch((error) => <Redirect to='/Error' />);
+      result = await getPerformance('companies').catch((error) => (
+        <Redirect to='/Error' />
+      ));
       setCompanyPerformance(result);
-      result = await getPerformance('mentors').catch((error) => <Redirect to='/Error' />);
+      result = await getPerformance('mentors').catch((error) => (
+        <Redirect to='/Error' />
+      ));
       setMentorPerformance(result);
       setDisplayTable(true);
     }
