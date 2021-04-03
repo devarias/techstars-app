@@ -2,6 +2,25 @@ span {
   color: #f5f5f5;
 }
 
+.boxupload {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding-top: 15%;
+}
+
+.downloadbutton {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  padding-top: 20px;
+}
+
+.buttonSubmit {
+  display: flex;
+  justify-content: center;
+}
+
 #buttonUpload {
   position: relative;
   margin-top: 30px;

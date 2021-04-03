@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Table, Input, Button, Space, Select, Row, Col } from 'antd';
+import { Table, Input, Button, Space, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { CSVDownloader, jsonToCSV } from 'react-papaparse';
 import CellPopUp from '../parts/CellPopOver';
 import CancelAllPopUp from '../parts/cancelAllPopUp';
+import Spinner from './Spinner';
 
 const colors = [
   '#483D8B',
@@ -48,13 +49,16 @@ const TableSchedule: React.FC = ({
   /* SortedInfo handles the information for sorting the mentor column */
   const [sortedInfo, setSortedInfo] = useState({});
   /* Wrangling the recieved data to generate the list to filter the mentors and the days*/
-  const [view, setView] = useState(2);
+  const [view, setView] = useState(0);
   /* state to higlight the text for the searched colum using text search */
   const [searchText, setSearchText] = useState('');
   /* searched column state for input text filters */
   const [searchedColumn, setSearchedColumn] = useState('');
   /* Input text for the searched column */
   const [searchInput, setSearchInput] = useState('');
+  /* dataSource handles the data to be showed on the meetings table */
+  const [filteredCompany, setFilteredCompany] = useState(null);
+
 
   const mentor_all = resSchedule.map((obj) => {
     return { text: obj.Mentor, value: obj.Mentor };
@@ -89,7 +93,6 @@ const TableSchedule: React.FC = ({
     let col = colors[index];
     return { company: comp, color: col };
   });
-
   /* Function to search with a input text for coincidences on mentors columns */
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -1047,9 +1050,10 @@ const TableSchedule: React.FC = ({
   let dataFilterAM = resSchedule.filter((row) => row.Block === 'AM');
   let dataFilterPM = resSchedule.filter((row) => row.Block === 'PM');
   let dataSources = [
+    { data: resSchedule, columns: AllColumns, name: 'ALL' },
     { data: dataFilterAM, columns: AM, name: 'AM' },
     { data: dataFilterPM, columns: PM, name: 'PM' },
-    { data: resSchedule, columns: AllColumns, name: 'ALL' },
+    { data: filteredCompany, columns: AllColumns, name: 'Company Filtered' },
   ];
   /*  
   const dataFilterAMPop = dataFilterAM.map((obj) => {
@@ -1081,8 +1085,6 @@ const TableSchedule: React.FC = ({
             backgroundColor: '#39C463',
             borderRadius: '5px',
             height: 32,
-            borderColor: '#39C463',
-            width: 110,
             disable: true,
           }}
           bom={true}
@@ -1093,7 +1095,43 @@ const TableSchedule: React.FC = ({
     }
   };
 
-  const handleFilterCompany = () => {};
+  const handleFilterCompany = (value) => {
+    console.log(value);
+    if (value === 'All' || value === undefined) {
+      setView(0);
+    } else {
+      let companyFilter = [];
+      for (let key in resSchedule) {
+        for (let slot in resSchedule[key]) {
+          if (
+            (slot !== 'mentor_id') &
+            (slot !== 'Mentor') &
+            (slot !== 'Email') &
+            (slot !== 'Day')
+          ) {
+            if (resSchedule[key][slot] === value)
+              companyFilter.push({ ...resSchedule[key] });
+          }
+        }
+      }
+      for (let item in companyFilter) {
+        for (let slot in companyFilter[item]) {
+          if (
+            (slot !== 'mentor_id') &
+            (slot !== 'Mentor') &
+            (slot !== 'Email') &
+            (slot !== 'Day') &
+            (slot != 'Block')
+          ) {
+            if (companyFilter[item][slot] !== value)
+              companyFilter[item][slot] = null;
+          }
+        }
+      }
+      setFilteredCompany(companyFilter);
+      setView(3);
+    }
+  };
 
   const filterCompany = list_comp.map((row) => (
     <Select.Option value={row}>{row}</Select.Option>
@@ -1103,33 +1141,51 @@ const TableSchedule: React.FC = ({
     <>
       <Space style={{ marginBottom: 3, marginLeft: 30 }}>
         <span>Time View:</span>
-        <Button onClick={handleBlock}>{dataSources[view].name}</Button>
+        <Button
+          type='primary'
+          onClick={handleBlock}
+          style={{
+            //color: '#fff',
+            backgroundColor: '#39C463',
+            borderRadius: '5px',
+            height: 32,
+            borderColor: '#39C460',
+            width: '100%',
+            disable: true,
+          }}
+        >
+          {dataSources[view].name}
+        </Button>
         <Select
           placeholder={'Filter by company'}
           style={{ width: 200 }}
           onChange={handleFilterCompany}
+          allowClear={true}
         >
+          <Select.Option value='All'>All</Select.Option>
           {filterCompany}
         </Select>
         <Button onClick={clearFilters}>Clear filters</Button>
         {renderDownload()}
       </Space>
       {tableDisplay ? (
-        <Table
-          className='ant-table-layout-fixed'
-          rowKey={(record) => record.uid}
-          style={{ marginBottom: 5 }}
-          bordered
-          pagination={{ pageSize: 100 }}
-          scroll={{ x: 'max-content' }}
-          size='small'
-          columns={dataSources[view].columns}
-          sticky
-          //dataSource={block === 'AM' ? dataFilterAM : dataFilterPM}
-          dataSource={dataSources[view].data}
-          onChange={handleChange}
-        />
-      ) : null}
+          <Table
+            className='ant-table-layout-fixed'
+            rowKey={(record) => record.uid}
+            style={{ marginBottom: 5 }}
+            bordered
+            pagination={{ pageSize: 100 }}
+            scroll={{ x: 'max-content' }}
+            size='small'
+            columns={dataSources[view].columns}
+            sticky
+            //dataSource={block === 'AM' ? dataFilterAM : dataFilterPM}
+            dataSource={dataSources[view].data}
+            onChange={handleChange}
+          />
+      ) : (
+        <Spinner />
+      )}
     </>
   );
 };
