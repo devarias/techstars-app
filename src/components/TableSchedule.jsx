@@ -59,7 +59,6 @@ const TableSchedule: React.FC = ({
   /* dataSource handles the data to be showed on the meetings table */
   const [filteredCompany, setFilteredCompany] = useState(null);
 
-
   const mentor_all = resSchedule.map((obj) => {
     return { text: obj.Mentor, value: obj.Mentor };
   });
@@ -182,7 +181,7 @@ const TableSchedule: React.FC = ({
       title: 'Mentor',
       dataIndex: 'Mentor',
       key: 'Mentor',
-      /* filters: mentor_am.sort(function (a, b) {
+      filters: mentor_am.sort(function (a, b) {
         let nameA = a.text.toUpperCase(); // ignore upper and lowercase
         let nameB = b.text.toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
@@ -193,8 +192,8 @@ const TableSchedule: React.FC = ({
         }
         // names must be equal
         return 0;
-      }), */
-      ...getColumnSearchProps('Mentor'),
+      }),
+      //...getColumnSearchProps('Mentor'),
       sorter: (a, b) => {
         let nameA = a.Mentor.toUpperCase(); // ignore upper and lowercase
         let nameB = b.Mentor.toUpperCase(); // ignore upper and lowercase
@@ -412,7 +411,7 @@ const TableSchedule: React.FC = ({
         // names must be equal
         return 0;
       },
-      ...getColumnSearchProps('Mentor'),
+      //...getColumnSearchProps('Mentor'),
       sortOrder: sortedInfo.columnKey === 'Mentor' && sortedInfo.order,
       filteredValue: filteredInfo?.Mentor || null,
       onFilter: (value, record) => record.Mentor.indexOf(value) === 0,
@@ -617,7 +616,7 @@ const TableSchedule: React.FC = ({
         // names must be equal
         return 0;
       },
-      ...getColumnSearchProps('Mentor'),
+      //...getColumnSearchProps('Mentor'),
       sortOrder: sortedInfo.columnKey === 'Mentor' && sortedInfo.order,
       filteredValue: filteredInfo?.Mentor || null,
       onFilter: (value, record) => record.Mentor.indexOf(value) === 0,
@@ -1169,20 +1168,20 @@ const TableSchedule: React.FC = ({
         {renderDownload()}
       </Space>
       {tableDisplay ? (
-          <Table
-            className='ant-table-layout-fixed'
-            rowKey={(record) => record.uid}
-            style={{ marginBottom: 5 }}
-            bordered
-            pagination={{ pageSize: 100 }}
-            scroll={{ x: 'max-content' }}
-            size='small'
-            columns={dataSources[view].columns}
-            sticky
-            //dataSource={block === 'AM' ? dataFilterAM : dataFilterPM}
-            dataSource={dataSources[view].data}
-            onChange={handleChange}
-          />
+        <Table
+          className='ant-table-layout-fixed'
+          rowKey={(record) => record.uid}
+          style={{ marginBottom: 5 }}
+          bordered
+          pagination={{ pageSize: 100 }}
+          scroll={{ x: 'max-content' }}
+          size='small'
+          columns={dataSources[view].columns}
+          sticky
+          //dataSource={block === 'AM' ? dataFilterAM : dataFilterPM}
+          dataSource={dataSources[view].data}
+          onChange={handleChange}
+        />
       ) : (
         <Spinner />
       )}

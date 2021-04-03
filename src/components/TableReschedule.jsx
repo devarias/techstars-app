@@ -19,6 +19,22 @@ const TableReschedule = ({
     return { text: row.mentor, value: row.mentor };
   });
 
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const days_filter = days.map((day) => {
+    return { text: day, value: day };
+  });
+
+  const sorter = {
+    // "sunday": 0, // << if sunday is first day of week
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
+    sunday: 7,
+  };
+
   const columnsAction = [
     {
       title: 'Mentor',
@@ -51,7 +67,8 @@ const TableReschedule = ({
         return 0;
       },
       sortOrder: sortedInfo.columnKey === 'mentor' && sortedInfo.order,
-      filteredValue: filteredInfo?.Mentor || null,
+      filteredValue: filteredInfo?.mentor || null,
+      onFilter: (value, record) => record.mentor.indexOf(value) === 0,
     },
     {
       title: 'Companies',
@@ -93,32 +110,15 @@ const TableReschedule = ({
       dataIndex: 'Day',
       key: 'Day',
       fixed: 'left',
-      filters: mentor_list.sort(function (a, b) {
-        let nameA = a.text.toUpperCase(); // ignore upper and lowercase
-        let nameB = b.text.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        // names must be equal
-        return 0;
-      }),
+      filters: days_filter,
       sorter: (a, b) => {
-        let nameA = a.Day.toUpperCase(); // ignore upper and lowercase
-        let nameB = b.Day.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        // names must be equal
-        return 0;
+        let day1 = a.Day.toLowerCase();
+        let day2 = b.Day.toLowerCase();
+        return sorter[day1] - sorter[day2];
       },
       sortOrder: sortedInfo.columnKey === 'Day' && sortedInfo.order,
-      filteredValue: filteredInfo?.Mentor || null,
+      filteredValue: filteredInfo?.Day || null,
+      onFilter: (value, record) => record.Day.indexOf(value) === 0,
     },
     {
       title: 'Block',
