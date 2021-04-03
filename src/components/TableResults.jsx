@@ -11,6 +11,7 @@ function TableResults(props) {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [filteredInfo, setFilteredInfo] = useState({});
+  const [sorteredInfo, setSorteredInfo] = useState({});
   let objIndex = 0;
 
   const handleModal = (company, value) => {
@@ -27,19 +28,22 @@ function TableResults(props) {
     setSearchedColumn(dataIndex);
   };
 
-  const handleChange = (filters, sorter) => {
+  const handleChange = (pagination, filters, sorter) => {
     setFilteredInfo(filters);
+    setSorteredInfo(sorter);
+    
   };
 
   const clearFilters = () => {
     setFilteredInfo(null);
     setSearchText('');
+    setSorteredInfo({});
   };
 
   const getData = (results) => {
     const array = [];
     for (const [mentor, result] of Object.entries(results[0])) {
-      if (result.some((obj) => obj['meetingDone'])) {
+      if (result.length && result.some((obj) => obj['meetingDone'] === true)) {
         const finalObj = { key: objIndex++, mentorName: mentor };
         result.forEach((element) => {
           if (element.meetingDone) {
@@ -108,6 +112,7 @@ function TableResults(props) {
     return {
       title: obj.company,
       dataIndex: obj.company,
+      key: obj.company,
       width: 150,
       render: (value) => {
         if (value !== undefined) {
@@ -180,17 +185,20 @@ function TableResults(props) {
           return b[obj.company] - a[obj.company];
         }
       },
+      sortOrder: sorteredInfo.columnKey === obj.company && sorteredInfo.order
     };
   });
 
   columns.unshift({
     title: 'Mentor Name',
     dataIndex: 'mentorName',
+    key: 'mentorName',
     fixed: true,
     width: 150,
     render: (value) => value,
     sorter: (a, b) => a.mentorName.localeCompare(b.mentorName),
     ...getColumnSearchProps('mentorName'),
+    sortOrder: sorteredInfo.columnKey === 'mentorName' && sorteredInfo.order
   });
 
   const data = getData(props.results);
@@ -198,7 +206,7 @@ function TableResults(props) {
   return (
     <>
       <Space style={{ marginLeft: 30, justifyContent: 'left' }}>
-        <Button onClick={clearFilters}>Clear filters</Button>
+        <Button onClick={clearFilters}>Clear all filters</Button>
       </Space>
       <ModalBox
         isModalVisible={isModalVisible}
