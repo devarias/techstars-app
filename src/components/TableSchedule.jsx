@@ -5,12 +5,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { CSVDownloader, jsonToCSV } from 'react-papaparse';
 import CellPopUp from '../parts/CellPopOver';
 import CancelAllPopUp from '../parts/cancelAllPopUp';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import Spinner from './Spinner';
-const { Option } = Select;
-
-const type = 'DragableBodyCell';
 
 const colors = [
   '#483D8B',
@@ -63,6 +58,7 @@ const TableSchedule: React.FC = ({
   const [searchInput, setSearchInput] = useState('');
   /* dataSource handles the data to be showed on the meetings table */
   const [filteredCompany, setFilteredCompany] = useState(null);
+
 
   const mentor_all = resSchedule.map((obj) => {
     return { text: obj.Mentor, value: obj.Mentor };
@@ -1173,7 +1169,6 @@ const TableSchedule: React.FC = ({
         {renderDownload()}
       </Space>
       {tableDisplay ? (
-        <DndProvider backend={HTML5Backend}>
           <Table
             className='ant-table-layout-fixed'
             rowKey={(record) => record.uid}
@@ -1188,7 +1183,6 @@ const TableSchedule: React.FC = ({
             dataSource={dataSources[view].data}
             onChange={handleChange}
           />
-        </DndProvider>
       ) : (
         <Spinner />
       )}

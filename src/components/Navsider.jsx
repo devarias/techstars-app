@@ -7,11 +7,12 @@ import {
   ScheduleOutlined,
   CalendarOutlined,
   HomeOutlined,
-  BarChartOutlined,
+  EyeOutlined,
   TableOutlined,
   UploadOutlined,
   LogoutOutlined,
   ContactsOutlined,
+  StarOutlined,
 } from '@ant-design/icons';
 import logoUrl from '../images/logo-dark.png';
 import LogoutButton from './LogoutButton';
@@ -20,13 +21,12 @@ const { SubMenu } = Menu;
 
 function NavSider({ setView, viewSelect }) {
   const handleView = ({ key }) => {
-    console.log(key);
     setView(key);
   };
   return (
     <>
       <div className='logo'>
-        <a href='#'>
+        <a href='https://techstars.com'>
           <img src={logoUrl} alt='techstarts icon' />
         </a>
       </div>
@@ -40,10 +40,10 @@ function NavSider({ setView, viewSelect }) {
           <Link to='/'>Home</Link>
         </Menu.Item>
         <SubMenu key='sub2' title='Matching' icon={<TeamOutlined />}>
-          <Menu.Item key='1' icon={<BarChartOutlined />}>
+          <Menu.Item key='1' icon={<EyeOutlined />}>
             <Link to='/SurveyStatus'>Tracking</Link>
           </Menu.Item>
-          <Menu.Item key='2' icon={<TableOutlined />}>
+          <Menu.Item key='2' icon={<StarOutlined />}>
             <Link to='/Performance'>Performance</Link>
           </Menu.Item>
           <Menu.Item key='3' icon={<TableOutlined />}>

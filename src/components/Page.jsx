@@ -8,6 +8,7 @@ import Navsider from './Navsider';
 import NotFound from './NotFound';
 import TableReschedule from './TableReschedule';
 import TableSchedule from './TableSchedule';
+import Welcome from './Welcome';
 import '../styles/Page.css';
 
 const { Content, Sider } = Layout;
@@ -74,11 +75,12 @@ const Page = () => {
   ];
   const onCollapse = (collapsed) => setCollapse(collapsed);
   const viewObjects = [
-    'home',
+    <Welcome />,
     <LoadTable />,
     <LoadTable />,
     <LoadTable />,
     <CSVReader2
+      setRechargeMeetings={setRechargeMeetings}
       setResSchedule={setResSchedule}
       setView={setView}
       setViewSelect={setViewSelect}
@@ -107,8 +109,6 @@ const Page = () => {
   return (
     <Router>
       <Switch>
-        {/* <Route exact path='/survey/:id' component={NotFound}/> */}
-        {/* <Route path='/Error' component={NotFound} /> */}
         <Layout style={{ minHeight: '100vh' }}>
           <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <Navsider setView={setView} viewselect={viewSelect} />
@@ -127,6 +127,7 @@ const Page = () => {
             </Content>
           </Layout>
         </Layout>
+        <Route path='/Error' component={NotFound} />
       </Switch>
     </Router>
   );

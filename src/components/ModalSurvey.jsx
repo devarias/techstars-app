@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'antd';
 import '../styles/ModalBox.css';
 
@@ -19,14 +19,15 @@ function ModalSurvey(props) {
       if (!props.modalContent.answered.includes(element)) {
         return <li>{element}</li>;
       }
-      return [];
     });
+    console.log(pendingArray);
     if (!answeredArray.length) {
       answeredArray = 'No surveys has been answered!';
     }
     if (!pendingArray.length) {
       pendingArray = 'There is no pending surveys. All have been answered!';
     }
+
     return (
       <>
         <h3>{props.modalContent.client}</h3>
