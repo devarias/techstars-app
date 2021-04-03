@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
-import { Table, Button, Form } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Form, Input, Space} from 'antd';
 import ModalPerformance from './ModalPerformance';
+import Highlighter from 'react-highlight-words';
 import '../styles/ModifySurvey.css';
 
 function Performance(props) {
   const [selectTable, setSelectTable] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({});
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  }
 
   const handleTableChange = () => {
     setSelectTable(!selectTable);
@@ -17,6 +27,58 @@ function Performance(props) {
     setIsModalVisible(true);
   };
 
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+      <div style={{ padding: 4 }}>
+        <Input
+          placeholder={selectTable ? 'Search Mentor' : 'Select Company'}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 135, marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type='primary'
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size='small'
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? '#39C643' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : '',
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#39C643',
+            padding: 0,
+            opacity: 0.6,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+
   const companyColumns = [
     {
       title: <div className='data'>Company Name</div>,
@@ -24,6 +86,7 @@ function Performance(props) {
       key: `companyName`,
       width: 100,
       render: (text) => <div className='data'>{text}</div>,
+      ...getColumnSearchProps('companyName')
     },
     {
       title: <div className='data'> Company Performance</div>,
@@ -64,6 +127,7 @@ function Performance(props) {
       key: `mentorName`,
       width: 100,
       render: (text) => <div className='data'>{text}</div>,
+      ...getColumnSearchProps('mentorName')
     },
     {
       title: <div className='data'>Mentor Performance</div>,

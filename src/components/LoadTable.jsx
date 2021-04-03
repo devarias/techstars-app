@@ -18,7 +18,6 @@ function LoadTable() {
   const [companyResults, setCompanyResults] = useState('');
   const [companyPerformance, setCompanyPerformance] = useState('');
   const [mentorPerformance, setMentorPerformance] = useState('');
-  const [hasError, setHasError] = useState(false);
   const currentLocation = useLocation();
 
   const getCompanies = async () => {
@@ -65,32 +64,22 @@ function LoadTable() {
 
   useEffect(() => {
     async function fetchData() {
-      let result = await getResults('mentors').catch((error) =>
-        setHasError(true)
-      );
+      let result = await getResults('mentors').catch((error) => <Redirect to='/Error' />);
       setMentorResults(result);
-      result = await getResults('companies').catch((error) =>
-        setHasError(true)
-      );
+      result = await getResults('companies').catch((error) => <Redirect to='/Error' />);
       setCompanyResults(result);
-      result = await getCompanies().catch((error) => setHasError(true));
+      result = await getCompanies().catch((error) => <Redirect to='/Error' />);
       setTodoCompanies(result);
-      result = await getPerformance('companies').catch((error) =>
-        setHasError(true)
-      );
+      result = await getPerformance('companies').catch((error) => <Redirect to='/Error' />);
       setCompanyPerformance(result);
-      result = await getPerformance('mentors').catch((error) =>
-        setHasError(true)
-      );
+      result = await getPerformance('mentors').catch((error) => <Redirect to='/Error' />);
       setMentorPerformance(result);
       setDisplayTable(true);
     }
     fetchData();
-  }, []);
+  });
 
-  if (hasError) {
-    return <Redirect to='/Error' />;
-  } else if (currentLocation.pathname === '/SurveyStatus') {
+  if (currentLocation.pathname === '/SurveyStatus') {
     return (
       <>
         <h2>Survey Tracking</h2>

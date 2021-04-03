@@ -12,7 +12,7 @@ function ModalBox(props) {
   let companyFeedback = 'None';
   let matchResult = 5;
   const info = props.modalContent;
-  const surveyVotes = ["Won't", 'is Willing', 'Wants', 'Wants', 'is pending'];
+  const surveyVotes = ["Won't", 'is Willing to', 'Wants to', 'Wants', 'is pending'];
   const surveyClass = ['wont', 'willing', 'want', 'want', 'pending'];
   const codeColor = [
     'notMatch',
@@ -61,11 +61,11 @@ function ModalBox(props) {
         <div className='modalBox'>
           <FireFilled className={`${codeColor[matchResult]} modalFireball`} />
           <p>
-            <b>{props.mentorName}</b>{' '}
+            <b>{props.mentorName} </b>
             <span className={surveyClass[mentorVote]}>
-              {surveyVotes[mentorVote]}
-            </span>{' '}
-            to lead {info.company}.<br />
+              {surveyVotes[mentorVote]} 
+            </span>
+            {surveyVotes[mentorVote] !== 'is pending' ? ` lead ${info.company}`: null}.<br />
             The score of how prepared is{' '}
             <span className={codeColor[mentorRanking - 1]}>
               {mentorRanking === 6 ? 'None' : mentorRanking}
@@ -76,11 +76,11 @@ function ModalBox(props) {
             <span>{mentorFeedback}</span>
           </p>
           <p>
-            <b>{info.company}</b>{' '}
+            <b>{info.company} </b>
             <span className={surveyClass[companyVote]}>
-              {surveyVotes[companyVote]}
-            </span>{' '}
-            to be mentored by {props.mentorName}.<br />
+              {surveyVotes[companyVote]} 
+            </span>
+            {surveyVotes[companyVote] !== 'is pending' ? ` be mentored by ${props.mentorName}`: null}.<br />
             The score of helpfulness is{' '}
             <span className={codeColor[companyRanking - 1]}>
               {companyRanking === 6 ? 'None' : companyRanking}

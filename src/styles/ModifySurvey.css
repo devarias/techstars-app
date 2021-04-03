@@ -27,10 +27,10 @@
   border-radius: 5%;
 }
 
-.incomplete {
+.anticon.incomplete {
   color: #ff5938;
 }
-.complete {
+.anticon.complete {
   color: #4dad45;
 }
 .good {
