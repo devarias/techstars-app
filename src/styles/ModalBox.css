@@ -3,6 +3,7 @@
   text-align: center;
   width: 440px;
   margin: 0 auto;
+  font-weight: 400;
   color: rgba(255, 255, 255, 0.664);
 }
 .modalBox span {
@@ -10,13 +11,22 @@
   text-justify: inter-cluster;
   color: #ffffff77;
 }
+
+div.modalBox p{
+  font-weight: 400;
+}
+div.ant-modal-title {
+  font-weight: 400;
+}
 .modalFireball {
   margin-bottom: 15px;
 }
 span.perfectMatch,
 span.want,
-ul.answered {
+ul.answered,
+span.good {
   color: #4dad45;
+  background: none;
 }
 span.strongMatch {
   color: #82d0ca;
@@ -29,8 +39,10 @@ span.willing {
   color: #ffa502;
 }
 span.notMatch,
-span.wont {
+span.wont,
+span.poor {
   color: #ff5938;
+  background: none;
 }
 span.pending,
 ul.pending {
@@ -50,14 +62,17 @@ ul {
   color: rgb(255, 255, 255);
   border-radius: 5%;
 }
-.want {
+.want.chart {
   background-color: #4dad45;
 }
 .will {
   background-color: #ffa502;
 }
-.wont {
+.wont.chart {
   background-color: #ff5938;
+}
+.modalBox h3 {
+  font-weight: 700;
 }
 canvas {
   width: 430px !important;

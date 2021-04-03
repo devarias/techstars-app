@@ -21,7 +21,7 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className='container'>
+      <div className='container spin'>
         <Spinner />
       </div>
     );

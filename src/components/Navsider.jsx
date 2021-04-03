@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   UserOutlined,
   TeamOutlined,
@@ -15,7 +16,6 @@ import {
   StarOutlined,
 } from '@ant-design/icons';
 import logoUrl from '../images/logo-dark.png';
-import LogoutButton from './LogoutButton';
 
 const { SubMenu } = Menu;
 
@@ -23,6 +23,7 @@ function NavSider({ setView, viewSelect }) {
   const handleView = ({ key }) => {
     setView(key);
   };
+  const { logout } = useAuth0();
   return (
     <>
       <div className='logo'>
@@ -65,7 +66,7 @@ function NavSider({ setView, viewSelect }) {
           </Menu.Item>
         </SubMenu>
         <Menu.Item key='8' icon={<LogoutOutlined />}>
-          <LogoutButton />
+          <Link onClick={() => logout()}>Log out</Link>
         </Menu.Item>
       </Menu>
     </>

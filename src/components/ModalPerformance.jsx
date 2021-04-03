@@ -38,7 +38,13 @@ function ModalPerformance(props) {
       onCancel={handleCancel}
       cancelButtonProps={{ style: { display: 'none' } }}
     >
-      <div className='modalBox'>{showDescription()}</div>
+      <div className='modalBox chart'>
+      <p>The performance of {client} is 
+      <span className={props.modalContent.performance < 50 ? 'poor' : 'good'}> {props.modalContent.performance} %</span> 
+      </p>
+      <p>Below a summary of the votes {client} received</p>
+        {showDescription()}
+      </div>
     </Modal>
   );
 }
