@@ -25,7 +25,7 @@ function TutorialMent() {
 
   return (
     <>
-      <Button onClick={showModal}>
+      <Button className='btn-modal' onClick={showModal}>
         <QuestionCircleOutlined style={{ fontSize: '20px' }} />
       </Button>
       <Modal

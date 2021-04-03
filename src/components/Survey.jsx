@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Survey.css';
 import { Avatar, Slider, Radio, Button } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import {
   AiOutlineCheckCircle,
   AiOutlineBulb,
@@ -135,7 +134,7 @@ function Survey(props) {
       {/* Front of the card */}
       <ReactCardFlip isFlipped={!flip} flipDirection='horizontal'>
         <div className='survey-box-front'>
-          <Avatar size={80} icon={<UserOutlined />} />
+          <Avatar size={80} icon={<img src={props.element.picture} />} />
           <span className='names'>{props.meetings}</span>
           <div className='buttons'>
             <Radio.Group buttonStyle='solid' defaultValue={props.vals}>
@@ -236,6 +235,12 @@ function Survey(props) {
         {/* Back of the card */}
         <div className='survey-box-back'>
           <div className='back'>
+            <Avatar
+              className='backPic'
+              size={80}
+              icon={<img src={props.element.picture} />}
+            />
+            <p>{props.meetings}</p>
             <AiOutlineCheckCircle size={100} color={'#39C643'} />
             <p>Thank you for your feedback!</p>
             <Button

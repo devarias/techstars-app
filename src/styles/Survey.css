@@ -94,7 +94,7 @@ li {
 
 .back {
   position: relative;
-  top: 180px;
+  top: 10px;
   left: auto;
   text-align: center;
   font-weight: 900;
@@ -225,7 +225,12 @@ li {
   background-color: #282c34;
   padding-bottom: 15px;
 }
-
+.backPic {
+  margin-left: 0;
+  margin-bottom: 5%;
+  height: 30%;
+  width: 30%;
+}
 @media all and (max-width: 500px) {
   .survey-box {
     left: 0%;

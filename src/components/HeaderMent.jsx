@@ -17,9 +17,7 @@ function HeaderMent() {
   return (
     <div className='barbckg'>
       <div className='bar'>{<Progress percent={parseInt(counter)} />}</div>
-      <div className='btn-circle'>
-        <TutorialComp />
-      </div>
+      <TutorialComp />
     </div>
   );
 }
