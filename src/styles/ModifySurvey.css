@@ -20,11 +20,20 @@
 .surveyButtons span {
   margin-top: 1%;
 }
-.data {
+div.data{
   text-align: center;
   display: block;
   margin: auto;
   border-radius: 5%;
+}
+div.ant-table-column-sorters {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+.ant-table-cell {
+  text-align: center;
 }
 
 .anticon.incomplete {

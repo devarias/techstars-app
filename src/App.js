@@ -26,6 +26,7 @@ function App() {
       </div>
     );
   }
+
   if (!isAuthenticated) {
     return loginWithRedirect();
   }

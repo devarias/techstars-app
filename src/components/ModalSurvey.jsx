@@ -12,18 +12,16 @@ function ModalSurvey(props) {
   };
 
   const showDescription = () => {
-    let answeredArray = props.modalContent.answered.map((element) => <li>{element}</li>);
-    let pendingArray = props.modalContent.total.map((element) => {
-      if (!props.modalContent.answered.includes(element)) {
-        return <li>{element}</li>;
-      }
-    });
+    let answeredArray = props.modalContent.answered.map(elementAnswer => <li>{elementAnswer}</li>);
+    let pendingArray = props.modalContent.total.filter(elementPending => 
+      !props.modalContent.answered.includes(elementPending)).map(elementPending => <li>{elementPending}</li>);
 
+    console.log(pendingArray)
     if (!answeredArray.length) {
       answeredArray = 'No surveys has been answered!';
     }
     if (!pendingArray.length) {
-      pendingArray = 'There is no pending surveys. All have been answered!';
+      pendingArray = 'There is no pending surveys. All have been answered!\n';
     }
 
     return (
@@ -35,7 +33,7 @@ function ModalSurvey(props) {
             <ul className='pending'>
               {pendingArray}
             </ul>
-          ) : pendingArray
+          ) : <p>{pendingArray}</p>
         }
         <br />
         <h4>The following surveys have been answered</h4>
@@ -44,7 +42,7 @@ function ModalSurvey(props) {
             <ul className='answered'>
               {answeredArray}
             </ul>
-          ) : answeredArray
+          ) : <p>{answeredArray}</p>
         }
       </>
     );

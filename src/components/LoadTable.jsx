@@ -64,28 +64,31 @@ function LoadTable() {
 
   useEffect(() => {
     async function fetchData() {
-      let result = await getResults('mentors').catch((error) => (
-        <Redirect to='/Error' />
-      ));
-      setMentorResults(result);
-      result = await getResults('companies').catch((error) => (
-        <Redirect to='/Error' />
-      ));
-      setCompanyResults(result);
-      result = await getCompanies().catch((error) => <Redirect to='/Error' />);
-      setTodoCompanies(result);
-      result = await getPerformance('companies').catch((error) => (
-        <Redirect to='/Error' />
-      ));
-      setCompanyPerformance(result);
-      result = await getPerformance('mentors').catch((error) => (
-        <Redirect to='/Error' />
-      ));
-      setMentorPerformance(result);
-      setDisplayTable(true);
+        let result = await getResults('mentors').catch((error) => (
+          <Redirect to='/Error' />
+        ));
+        setMentorResults(result);
+        result = await getResults('companies').catch((error) => (
+          <Redirect to='/Error' />
+        ));
+        setCompanyResults(result);
+        result = await getCompanies().catch((error) => (
+          <Redirect to='/Error' />
+        ));
+        setTodoCompanies(result);
+        result = await getPerformance('companies').catch((error) => (
+          <Redirect to='/Error' />
+        ));
+        setCompanyPerformance(result);
+        result = await getPerformance('mentors').catch((error) => (
+          <Redirect to='/Error' />
+        ));
+        setMentorPerformance(result);
+        setDisplayTable(true);
     }
     fetchData();
-  });
+    setInterval(() => {fetchData()}, 60000);
+  }, []);
 
   if (currentLocation.pathname === '/SurveyStatus') {
     return (
