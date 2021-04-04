@@ -26,6 +26,15 @@ div.data{
   margin: auto;
   border-radius: 5%;
 }
+div.ant-table-column-sorters {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+.ant-table-cell {
+  text-align: center;
+}
 
 .anticon.incomplete {
   color: #ff5938;

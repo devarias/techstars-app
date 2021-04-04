@@ -24,6 +24,7 @@ function TableResults(props) {
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
+    console.log(selectedKeys)
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
@@ -31,7 +32,6 @@ function TableResults(props) {
   const handleChange = (pagination, filters, sorter) => {
     setFilteredInfo(filters);
     setSorteredInfo(sorter);
-    
   };
 
   const clearFilters = () => {
@@ -60,6 +60,7 @@ function TableResults(props) {
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
       <div style={{ padding: 4 }}>
         <Input
+          ref={node => setSearchText}
           placeholder={'Search Mentor'}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -84,13 +85,13 @@ function TableResults(props) {
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? '#39C643' : undefined }} />
     ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        ? record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase())
-        : '',
+    filteredValue: filteredInfo ? filteredInfo[dataIndex] : null,
+    onFilter: (value, record) => {
+      if (record[dataIndex]) {
+        return (record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()))
+      }
+      return ''
+    },
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
@@ -185,7 +186,7 @@ function TableResults(props) {
           return b[obj.company] - a[obj.company];
         }
       },
-      sortOrder: sorteredInfo.columnKey === obj.company && sorteredInfo.order
+      sortOrder: sorteredInfo.columnKey === obj.company && sorteredInfo.order,
     };
   });
 
@@ -196,8 +197,8 @@ function TableResults(props) {
     fixed: true,
     width: 150,
     render: (value) => value,
-    sorter: (a, b) => a.mentorName.localeCompare(b.mentorName),
     ...getColumnSearchProps('mentorName'),
+    sorter: (a, b) => a.mentorName.localeCompare(b.mentorName),
     sortOrder: sorteredInfo.columnKey === 'mentorName' && sorteredInfo.order
   });
 

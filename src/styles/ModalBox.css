@@ -50,8 +50,13 @@ ul.pending {
 }
 ul.pending, ul.answered {
   display: flex;
-  height: 300px;
+  align-items: center;
+  width: 100%;
+  max-height: 350px;
   flex-flow: column wrap;
+}
+ul.pending li, ul.answered li {
+  margin: 0.8%;
 }
 ul {
   list-style-type: none;

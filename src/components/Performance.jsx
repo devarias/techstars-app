@@ -12,6 +12,7 @@ function Performance(props) {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [filteredInfo, setFilteredInfo] = useState({});
+  const [sorteredInfo, setSorteredInfo] = useState({});
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -19,11 +20,20 @@ function Performance(props) {
     setSearchedColumn(dataIndex);
   }
 
- const handleChange = (filters) => {
-    setFilteredInfo(filters);
+  const handleReset = clearFilters => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const handleChange = (pagination, filters, sorter) => {
+    setSorteredInfo(sorter)
+    setFilteredInfo(filters)
   };
 
   const handleTableChange = () => {
+    setFilteredInfo(null);
+    setSorteredInfo({})
+    setSearchText('');
     setSelectTable(!selectTable);
   };
 
@@ -33,7 +43,7 @@ function Performance(props) {
   };
 
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 4 }}>
         <Input
           placeholder={selectTable ? 'Search Mentor' : 'Select Company'}
@@ -42,7 +52,7 @@ function Performance(props) {
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 135, marginBottom: 8, display: 'block' }}
+          style={{ width: 187, marginBottom: 8, display: 'block' }}
         />
         <Space>
           <Button
@@ -54,12 +64,16 @@ function Performance(props) {
           >
             Search
           </Button>
+          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
         </Space>
       </div>
     ),
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? '#39C643' : undefined }} />
     ),
+    filteredValue: filteredInfo ? filteredInfo[dataIndex] : null,
     onFilter: (value, record) =>
       record[dataIndex]
         ? record[dataIndex]
@@ -84,39 +98,58 @@ function Performance(props) {
       ),
   });
 
-  const companyColumns = [
-    {
-      title: <div className='data'>Company Name</div>,
-      dataIndex: `companyName`,
-      key: `companyName`,
-      width: 100,
-      render: (text) => <div className='data'>{text}</div>,
-      ...getColumnSearchProps('companyName')
-    },
-    {
-      title: <div className='data'>Company Performance</div>,
-      dataIndex: 'performance',
-      key: 'performance',
-      width: 100,
-      render: (value, record) => (
-        <div
-          onClick={() => handleModal(record)}
-          className={'data ' + (value < 50 ? 'poor' : 'good')}
-        >
-          {value} %
-        </div>
-      ),
-    },
-  ];
+  const getColumns = (client) => {
+    const title = (client === 'mentor' ? 'Mentor' : 'Company')
+    return (
+      [
+        {
+          title: <div className='data'>{title} Name</div>,
+          dataIndex: `${client}Name`,
+          key: `${client}Name`,
+          width: 100,
+          render: (text) => <span className='data'>{text}</span>,
+          ...getColumnSearchProps(`${client}Name`)
+        },
+        {
+          title: <div className='data'>{title} Performance</div>,
+          dataIndex: 'performance',
+          key: 'performance',
+          width: 100,
+          render: (value, record) => (
+            <div
+              onClick={() => handleModal(record)}
+              className={'data ' + (value < 50 ? 'poor' : 'good')}
+            >
+              {value} %
+            </div>
+          ),
+          filters: [
+              {
+                text: <Tag color='green' key='more popular'>MORE POPULAR</Tag>,
+                value: true,
+              },
+              {
+                text: <Tag color='volcano' key='less popular'>LESS POPULAR</Tag>,
+                value: false,
+              },
+            ],
+            filteredValue: filteredInfo ? filteredInfo['performance'] : null,
+            onFilter: (value, record) => record.performance > 49 === value,
+            sorter: (a, b) => a.performance - b.performance,
+            sortOrder: sorteredInfo.columnKey === 'performance' && sorteredInfo.order,
+        },
+      ]
+    )
+  };
 
-  const getCompanyData = () => {
+  const getData = (client, results) => {
     const objListRows = [];
     let index = 0;
-    for (const [company, value] of Object.entries(props.companyResults)) {
+    for (const [key, value] of Object.entries(results)) {
       if (value.performance !== null) {
         let Row = {
           key: index++,
-          companyName: company,
+          [client + 'Name']: key,
           ...value,
         };
         objListRows.push(Row);
@@ -125,61 +158,10 @@ function Performance(props) {
     return objListRows;
   };
 
-  const mentorColumns = [
-    {
-      title: <div className='data'>Mentor Name</div>,
-      dataIndex: `mentorName`,
-      key: `mentorName`,
-      width: 100,
-      render: (text) => <div className='data'>{text}</div>,
-      ...getColumnSearchProps('mentorName')
-    },
-    {
-      title: <div className='data'>Mentor Performance</div>,
-      dataIndex: 'performance',
-      key: 'performance',
-      width: 100,
-      render: (value, record) => (
-        <div
-          onClick={() => handleModal(record)}
-          className={'data ' + (value < 50 ? 'poor' : 'good')}
-        >
-          {value} %
-        </div>
-      ),
-      filters: [
-          {
-            text: <Tag color='green' key='more popular'>MORE POPULAR</Tag>,
-            value: 1,
-          },
-          {
-            text: <Tag color='volcano' key='less popular'>LESS POPULAR</Tag>,
-            value: 0 || -1,
-          },
-        ],
-        filteredValue: filteredInfo ? filteredInfo['performance'] : null,
-        onFilter: (value, record) => Math.floor((record.performance - 1) / 50) > value,
-    },
-  ];
-
-  const getMentorData = () => {
-    const objListRows = [];
-    let index = 0;
-    for (const [mentor, value] of Object.entries(props.mentorResults)) {
-      if (value.performance !== null) {
-        let Row = {
-          key: index++,
-          mentorName: mentor,
-          ...value,
-        };
-        objListRows.push(Row);
-      }
-    }
-    return objListRows;
-  };
-
-  const dataCompanies = getCompanyData();
-  const dataMentors = getMentorData();
+  const mentorColumns = getColumns('mentor');
+  const companyColumns = getColumns('company');
+  const dataCompanies = getData('company', props.companyResults);
+  const dataMentors = getData('mentor', props.mentorResults);
 
   return (
     <div className='modifySurvey'>
