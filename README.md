@@ -6,7 +6,7 @@
 3. [Installation](#Installation)
 4. [Running](#Running)
 5. [Mentor_Matching_Machine](#Mentor_Matching_Machine)
-6. [Logging](#Logging)
+6. [Login](#Login)
 7. [Mentor_Madness](#Mentor_Madness)
 8. [Survey_Filling_App](#Survey_Filling_App)
 9. [Data_Dashboard](#Data_Dashboard)
@@ -27,7 +27,7 @@ The users must access this aplication through a link that will be sent to their 
 # Mentor_Matching_Machine
 ![Logo.](./src/images/BlackLogo.png "Logo.")
 This projects consists of a SPA(single page application) with multiple views, these views which are divided into the Logging, Mentor Madness(Scheduling), Survey Application, and finally the Data Dashboard.
-# Logging
+# Login
 ![Login.](./src/images/Login.jpeg "Login.")
 This view is meant only for the programm manager or associate from Techstars, this works with auth0, which will validate the credentials through user and password, once the validation is done, it will redirect the user to the main view where it can select between Scheduling or Matching, or Logout if the case needs to be.
 # Mentor_Madness
