@@ -25,21 +25,23 @@ The users must access this aplication through a link that will be sent to their 
 * npm run dev => This command will start running the API as a development environment, to apply changes during the modification of the files.
 * npm start => This command will start running the API as a production environment, if you want to do a change, they will not be applied to the running app.
 # Mentor_Matching_Machine
+![Logo.](./src/images/logo-dark.png "Logo.")
 This projects consists of a SPA(single page application) with multiple views, these views which are divided into the Logging, Mentor Madness(Scheduling), Survey Application, and finally the Data Dashboard.
 # Logging
+![Logging.](./src/images/logging.jpeg "Logging.")
 This view is meant only for the programm manager or associate from Techstars, this works with auth0, which will validate the credentials through user and password, once the validation is done, it will redirect the user to the main view where it can select between Scheduling or Matching, or Logout if the case needs to be.
 * ![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
 # Mentor_Madness
 This is where the programm manager, or assiociates will assemble the meetings between mentors and companies.
 This project has 4 general views
+![ScheduleCSV.](./src/images/ScheduleCSV.jpeg "Schedule.")
 * Generate Meetings, this loads a CSV file through drag and drop, drag file and drop in a specified area, the CSV file contains all the companies that corresponds to each mentor, after the file was loaded, it will re-route you to the next view, hitting the icon at the right superior corner allows to download a CSV template so the user doesn't have to deal with formatting issues.
-![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
+![ScheduleTime.](./src/images/ScheduleTimeTable.jpeg "Schedule.")
 * Meetings Table, this has a time table where each row will be a mentor that is going to have meetings in timeblocks assigned to companies in the columns, you could modify the display by filtering through mentors, companies, time blocks, days, hitting the icon at the right superior corner allows to download a CSV template so the user doesn't have to deal with meetings table formatting issues.
-![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
+![Re-Schedule.](./src/images/ScheduleRe-ScheduleTable.jpeg "ReSchedule.")
 * Schedule, will display all the mentors that havent been asigned for a meeting with a company, due to cancelation by mentor, or haven't picked a time frame for the meeting, this could be filtered by mentors, companies, time blocks, and days.
-![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
+![AddDrop.](./src/images/ScheduleAddorDrop.jpeg "AddorDrop.")
 * Add & Delete Mentors, as its name implies, it will allow the staff to add new mentors or remove them from the Techstars programm.
-![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
 # Survey_Filling_App
 ![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
 The mentors and the companies will access through an URL that was sent to their e-mail.
