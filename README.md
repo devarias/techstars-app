@@ -63,10 +63,9 @@ If it is the first time they are submitting surveys, all the submit buttons will
  * Undo button will flip back the card, so the user will be able to edit the answers.
 # Data_Dashboard
 The data dashboard will consist of 3 general views which are:
-
-![SC.](./src/images/SurveyTracking.jpeg"Survey Tracking.")
+![SC.](./src/images/SurveyTracking.jpeg "Survey Tracking.")
 * Tracking: Consists of tables that display the status or the the progress reagrding the survey filling by mentors and companies, this view allows to select either mentor or company that is missing to fill out a survey, so the reminder will be sent to their email, it also allows to display the missing surveys or the submitted ones.
-![SP.](./src/images/SurveyPerformance.jpeg"Survey Performance.")
+![SP.](./src/images/SurveyPerformance.jpeg "Survey Performance.")
 * Performance: Consists of tables that display the performance by mentor or company, so the staff will be able to take action regarding the least wanted company or mentor, and the contrary case as well, it will display a graphic chart for every company or mentor.
-![SR.](./src/images/SurveyResults.jpeg"Survey Results.")
+![SR.](./src/images/SurveyResults.jpeg "Survey Results.")
 * Results: Consists of tables that display the matching results from mentors and companies.
