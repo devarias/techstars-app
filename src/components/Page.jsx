@@ -102,6 +102,7 @@ const Page = () => {
       mentors={mentors}
       companies={companies}
       setReloadMentors={setReloadMentors}
+      setView={setView}
     />,
     <TableReschedule />,
   ];
@@ -110,7 +111,12 @@ const Page = () => {
     <Router>
       <Switch>
         <Layout style={{ minHeight: '100vh' }}>
-          <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} width='210'>
+          <Sider
+            collapsible
+            collapsed={collapsed}
+            onCollapse={onCollapse}
+            width='210'
+          >
             <Navsider setView={setView} viewselect={viewSelect} />
           </Sider>
           <Layout className='site-layout'>

@@ -4,7 +4,7 @@ import DeleteMentor from '../parts/formDeleteMentors';
 import AddMentor from '../parts/formAddMentor';
 import '../styles/EditMentors.css';
 
-const EditMentors = ({ mentors, companies, setReloadMentors }) => {
+const EditMentors = ({ mentors, companies, setReloadMentors, setView }) => {
   return (
     <>
       <Row className='editMentors'>
@@ -16,6 +16,7 @@ const EditMentors = ({ mentors, companies, setReloadMentors }) => {
             mentors={mentors}
             companies={companies}
             setReloadMentors={setReloadMentors}
+            setView={setView}
           />
         </Col>
       </Row>
