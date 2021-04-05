@@ -25,7 +25,7 @@ The users must access this aplication through a link that will be sent to their 
 * npm run dev => This command will start running the API as a development environment, to apply changes during the modification of the files.
 * npm start => This command will start running the API as a production environment, if you want to do a change, they will not be applied to the running app.
 # Mentor_Matching_Machine
-![Logo.](./src/images/Logo.png "Logo.")
+<br>![Logo.](./src/images/Logo.png "Logo.")</br>
 This projects consists of a SPA(single page application) with multiple views, which are divided into the Login, Mentor Madness(Scheduling), Survey Application, and finally the Data Dashboard.
 # Login
 ![Login.](./src/images/Login.jpeg "Login.")
