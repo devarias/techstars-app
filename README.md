@@ -45,6 +45,7 @@ This project has 4 general views
 ![SFC.](./src/images/SurveyCardFront.jpeg "Front Card.")
 The mentors and the companies will access through an URL that was sent to their e-mail.
 If it is the first time they are submitting surveys, all the submit buttons will be disabled, they have to perform a vote by pressing 1 of the 3 buttons that says: Want To, Willing To, Won't, once that is done, the submit button will be enabled.
+
 ![SFC.](./src/images/SurveyCardFrontSubmit.jpeg "Front Card.")
 * Functional Components
  * This aplication was built as a SPA(single page application) made of functional components with useState and useEffect hooks.
