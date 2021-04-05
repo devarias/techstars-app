@@ -10,6 +10,7 @@
 7. [Mentor_Madness](#Mentor_Madness)
 8. [Survey_Filling_App](#Survey_Filling_App)
 9. [Data_Dashboard](#Data_Dashboard)
+10. [Contributors](#Contributors)
 # Getting_Started
 This project was built  as a SPA(Single Page Application) in React to communicate with a data base in the back-end running in this app as a RESTful API. As the first step is to get data from an end point to display the companies and mentors that had their first meeting. The app will take the user input as data and send it to the data base, if it is the first time the user will send data by submitting the survey, it will do a POST with axios, if the user is updating a previous answered survey, it will do a PUT instead, the application will display which surveys have been submitted before and will display a progress bar that reflects the total number of surveys to complete.
 The users must access this aplication through a link that will be sent to their email.
@@ -26,7 +27,7 @@ The users must access this aplication through a link that will be sent to their 
 * npm start => This command will start running the API as a production environment, if you want to do a change, they will not be applied to the running app.
 # Mentor_Matching_Machine
 ![Logo.](./src/images/BlackLogo.png "Logo.")
-This projects consists of a SPA(single page application) with multiple views, these views which are divided into the Logging, Mentor Madness(Scheduling), Survey Application, and finally the Data Dashboard.
+This projects consists of a SPA(single page application) with multiple views, which are divided into the Login, Mentor Madness(Scheduling), Survey Application, and finally the Data Dashboard.
 # Login
 ![Login.](./src/images/Login.jpeg "Login.")
 This view is meant only for the programm manager or associate from Techstars, this works with auth0, which will validate the credentials through user and password, once the validation is done, it will redirect the user to the main view where it can select between Scheduling or Matching, or Logout if the case needs to be.
@@ -63,9 +64,70 @@ If it is the first time they are submitting surveys, all the submit buttons will
  * Undo button will flip back the card, so the user will be able to edit the answers.
 # Data_Dashboard
 The data dashboard will consist of 3 general views which are:
-![SC.](./src/images/SurveyTracking.jpeg "Survey Tracking.")
+<br>![SC.](./src/images/SurveyTracking.jpeg "Survey Tracking.")</br>
 * Tracking: Consists of tables that display the status or the the progress reagrding the survey filling by mentors and companies, this view allows to select either mentor or company that is missing to fill out a survey, so the reminder will be sent to their email, it also allows to display the missing surveys or the submitted ones.
-![SP.](./src/images/SurveyPerformance.jpeg "Survey Performance.")
+<br>![SP.](./src/images/SurveyPerformance.jpeg "Survey Performance.")</br>
 * Performance: Consists of tables that display the performance by mentor or company, so the staff will be able to take action regarding the least wanted company or mentor, and the contrary case as well, it will display a graphic chart for every company or mentor.
-![SR.](./src/images/SurveyResults.jpeg "Survey Results.")
+<br>![SR.](./src/images/SurveyResults.jpeg "Survey Results.")</br>
 * Results: Consists of tables that display the matching results from mentors and companies.
+# Contributors
+<div align='center'>
+  <div>
+    <table>
+      <tr>
+        <td valign="top" align='center'>
+          <a href="https://github.com/valen2510/" target="_blank">
+            <p>Valentina Jaramillo</p>
+            <img alt="github_page" src="https://avatars.githubusercontent.com/u/65981858?v=4" height="80" width="80"/>
+          </a>
+          <br />
+          <a href="https://linkedin.com/in/valentina%20jaramillo%20ramirez" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
+          </a>
+          <a href="https://twitter.com/daftval" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
+          </a>
+        </td>
+        <td valign="top" align='center'>
+          <a href="https://github.com/oomsebas" target="_blank">
+            <p>Sebastian Orozco</p>
+            <img alt="github_page" src="https://avatars.githubusercontent.com/u/24995592?v=4" height="80" width="80"/>
+          </a>
+          <br />
+          <a href="https://www.linkedin.com/in/omsebas" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
+          </a>
+          <a href="https://twitter.com/omsebas" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
+          </a>
+        </td>
+        <td valign="top" align='center'>
+          <a href="https://github.com/MarcosPimienta" target="_blank">
+            <p>Marcos Pimienta</p>
+            <img alt="github_page" src="https://avatars.githubusercontent.com/u/60362847?v=4" height="80" width="80"/>
+          </a>
+          <br />
+          <a href="https://www.linkedin.com/in/marcospimienta/" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
+          </a>
+          <a href="https://twitter.com/Marcos_Pimienta" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
+          </a>
+        </td>
+        <td valign="top" align='center'>
+          <a href="https://github.com/devarias" target="_blank">
+            <p>David Arias Fuentes</p>
+            <img alt="github_page" src="https://avatars.githubusercontent.com/u/61300552?v=4" height="80" width="80"/>
+          </a>
+          <br />
+          <a href="https://www.linkedin.com/in/devarias/" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/linkedin.png" width="35" />
+          </a>
+          <a href="https://www.twitter.com/DavidDevArias" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.icons8.com/plasticine/100/000000/twitter.png" width="35" />
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
