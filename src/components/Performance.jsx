@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { Table, Button, Form, Input, Space, Tag} from 'antd';
+import { Table, Button, Form, Input, Space, Tag, Radio} from 'antd';
 import ModalPerformance from './ModalPerformance';
 import Highlighter from 'react-highlight-words';
 import '../styles/ModifySurvey.css';
@@ -30,11 +30,15 @@ function Performance(props) {
     setFilteredInfo(filters)
   };
 
-  const handleTableChange = () => {
+  const handleTableChange = (event) => {
     setFilteredInfo(null);
     setSorteredInfo({})
     setSearchText('');
-    setSelectTable(!selectTable);
+    if (event.target.value === 'mentor') {
+      setSelectTable(true);
+    } else {
+      setSelectTable(false);
+    }
   };
 
   const handleModal = (performanceInfo) => {
@@ -167,20 +171,20 @@ function Performance(props) {
     <div className='modifySurvey'>
       <div className='surveyButtons'>
         <Form.Item label='Table selection'>
-          <Button
+          <Radio.Button
             className='selection'
             value='mentor'
-            onClick={handleTableChange}
+            onClick={(event) => handleTableChange(event)}
           >
             Mentors
-          </Button>
-          <Button
+          </Radio.Button>
+          <Radio.Button
             className='selection'
             value='company'
-            onClick={handleTableChange}
+            onClick={(event) => handleTableChange(event)}
           >
             Companies
-          </Button>
+          </Radio.Button>
         </Form.Item>
         <ModalPerformance
           isModalVisible={isModalVisible}

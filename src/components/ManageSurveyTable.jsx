@@ -8,6 +8,7 @@ import {
   Modal,
   Progress,
   Tooltip,
+  Radio
 } from 'antd';
 import {
   SearchOutlined,
@@ -70,13 +71,17 @@ function ManageSurveyTable(props) {
     setIsModalVisible(true);
   };
 
-  const handleTableChange = () => {
+  const handleTableChange = (event) => {
     setSelectedRows([]);
     setSelectedRowKeys([]);
     setFilteredInfo(null)
     setSorteredInfo({})
     setSearchText('');
-    setSelectTable(!selectTable);
+     if (event.target.value === 'mentor') {
+      setSelectTable(true);
+    } else {
+      setSelectTable(false);
+    }
   };
 
   const sendReminder = async (rowArray) => {
@@ -277,20 +282,20 @@ function ManageSurveyTable(props) {
     <div className='modifySurvey'>
       <div className='surveyButtons'>
         <Form.Item label='Table selection'>
-          <Button
+          <Radio.Button
             className='selection'
             value='mentor'
-            onClick={handleTableChange}
+            onClick={(event) => handleTableChange(event)}
           >
             Mentors
-          </Button>
-          <Button
+          </Radio.Button>
+          <Radio.Button
             className='selection'
             value='company'
-            onClick={handleTableChange}
+            onClick={(event) => handleTableChange(event)}
           >
             Companies
-          </Button>
+          </Radio.Button>
         </Form.Item>
         <Button
           className='sendButton'
