@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Select, Space } from 'antd';
+import { useHistory } from 'react-router-dom';
 const { Option } = Select;
 
-const AddMentor = ({ companies, setReloadMentors }) => {
+const AddMentor = ({ companies, setReloadMentors, setView }) => {
   const [form] = Form.useForm();
+  const [submitted, setSubmitted] = useState(false);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (submitted === true) {
+      history.push('/Schedule');
+      setReloadMentors(true);
+      setView(6);
+      return () => {};
+    }
+  }, [submitted]);
   const submitaddMentor = async (value) => {
     form.resetFields();
     let bodyData = JSON.stringify([
@@ -24,7 +37,7 @@ const AddMentor = ({ companies, setReloadMentors }) => {
       .then((response) => response.json())
       .then((result) => {
         alert('Mentor Created');
-        setReloadMentors(true);
+        setSubmitted(true);
       })
       .catch((error) => {
         alert('Error:', error);
