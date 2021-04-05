@@ -42,19 +42,23 @@ This project has 4 general views
 ![AddDrop.](./src/images/ScheduleAddorDrop.jpeg "AddorDrop.")
 * Add & Delete Mentors, as its name implies, it will allow the staff to add new mentors or remove them from the Techstars programm.
 # Survey_Filling_App
-![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
+![SFC.](./src/images/SurveyCardFront.jpeg "Front Card.")
 The mentors and the companies will access through an URL that was sent to their e-mail.
 If it is the first time they are submitting surveys, all the submit buttons will be disabled, they have to perform a vote by pressing 1 of the 3 buttons that says: Want To, Willing To, Won't, once that is done, the submit button will be enabled.
+![SFC.](./src/images/SurveyCardFrontSubmit.jpeg "Front Card.")
 * Functional Components
  * This aplication was built as a SPA(single page application) made of functional components with useState and useEffect hooks.
  * Avatar will display a circled picture from the company or the mentor
  * This component will display the survey cards in a grid fashion using the '\<Row>\' and '\<Col>\' from the 'antd' package.
  * Will GET the number of elements to be displayed according to who the user is(company or mentor) and it will display only the meetings that already happened.
+ ![SC.](./src/images/SurveySubmitted.jpeg "Submited Card.")
  * Has a dynamic progress bar that will be filled by submitting the survey cards, or decreased by pressing undo.
+ ![ST.](./src/images/Survey_Tutorial.JPG "Survey Tutorial.")
  * By pressing the "?" mark on the top bar you will display the survey filling instructions.
  * The slider ranges from 1 to 5 to evaluate by dragging Mentor Helpfullness or Company Preparedness,
  * Textarea will allow to have up to 200 characters as written feedback.
  * Submit button will POST or PUT the data that is on the card and perform a flip animation.
+ ![SC.](./src/images/SurveyComplete.jpeg "Survey Complete.")
  * Undo button will flip back the card, so the user will be able to edit the answers.
 # Data_Dashboard
 The data dashboard will consist of 3 general views which are:
