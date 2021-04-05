@@ -28,9 +28,8 @@ The users must access this aplication through a link that will be sent to their 
 ![Logo.](./src/images/BlackLogo.png "Logo.")
 This projects consists of a SPA(single page application) with multiple views, these views which are divided into the Logging, Mentor Madness(Scheduling), Survey Application, and finally the Data Dashboard.
 # Logging
-![Logging.](./src/images/logging.jpeg "Logging.")
+![Login.](./src/images/Login.jpeg "Login.")
 This view is meant only for the programm manager or associate from Techstars, this works with auth0, which will validate the credentials through user and password, once the validation is done, it will redirect the user to the main view where it can select between Scheduling or Matching, or Logout if the case needs to be.
-* ![This is a alt text.](./src/img/Survey.jpg "This is a sample image.")
 # Mentor_Madness
 This is where the programm manager, or assiociates will assemble the meetings between mentors and companies.
 This project has 4 general views
